@@ -15,11 +15,11 @@ import rx.Observable;
  * Created by Junya Ogasawara on 1/9/17.
  */
 
-public class CloudWeatherDataStore implements WeatherDataStore {
+class CloudWeatherDataStore implements WeatherDataStore {
 
     private final OpenWeatherMapApi openWeatherMapApi;
 
-    public CloudWeatherDataStore(OpenWeatherMapApi openWeatherMapApi) {
+    CloudWeatherDataStore(OpenWeatherMapApi openWeatherMapApi) {
         this.openWeatherMapApi = openWeatherMapApi;
     }
 

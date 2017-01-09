@@ -6,6 +6,8 @@
 
 package io.github.a0gajun.weather.data.repository.datasource;
 
+import javax.inject.Inject;
+
 import io.github.a0gajun.weather.data.net.OpenWeatherMapApi;
 
 /**
@@ -16,6 +18,7 @@ public class WeatherDataStoreFactory {
 
     private final OpenWeatherMapApi openWeatherMapApi;
 
+    @Inject
     public WeatherDataStoreFactory(OpenWeatherMapApi openWeatherMapApi) {
         this.openWeatherMapApi = openWeatherMapApi;
     }

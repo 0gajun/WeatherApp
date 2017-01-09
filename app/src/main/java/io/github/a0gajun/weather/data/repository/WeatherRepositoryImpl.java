@@ -8,6 +8,8 @@ package io.github.a0gajun.weather.data.repository;
 
 import android.support.v4.util.Pair;
 
+import javax.inject.Inject;
+
 import io.github.a0gajun.weather.data.entity.mapper.CurrentWeatherMapper;
 import io.github.a0gajun.weather.data.entity.mapper.FiveDayForecastMapper;
 import io.github.a0gajun.weather.data.repository.datasource.WeatherDataStoreFactory;
@@ -26,6 +28,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     private final CurrentWeatherMapper currentWeatherMapper;
     private final FiveDayForecastMapper fiveDayForecastMapper;
 
+    @Inject
     public WeatherRepositoryImpl(WeatherDataStoreFactory weatherDataStoreFactory,
                                  CurrentWeatherMapper currentWeatherMapper,
                                  FiveDayForecastMapper fiveDayForecastMapper) {
