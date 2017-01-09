@@ -14,6 +14,10 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.github.a0gajun.weather.AndroidApplication;
+import io.github.a0gajun.weather.data.executor.JobExecutor;
+import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
+import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
+import io.github.a0gajun.weather.presentation.executor.UIThread;
 
 /**
  * Created by Junya Ogasawara on 1/9/17.
@@ -37,5 +41,17 @@ public class ApplicationModule {
     @Singleton
     Context provideApplicationContext() {
         return this.androidApplication;
+    }
+
+    @Provides
+    @Singleton
+    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+        return jobExecutor;
+    }
+
+    @Provides
+    @Singleton
+    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+        return uiThread;
     }
 }
