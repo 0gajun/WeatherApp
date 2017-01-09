@@ -10,14 +10,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import io.github.a0gajun.weather.data.entity.owp_common.Clouds;
-import io.github.a0gajun.weather.data.entity.owp_common.Coordinate;
-import io.github.a0gajun.weather.data.entity.owp_common.Main;
-import io.github.a0gajun.weather.data.entity.owp_common.Rain;
-import io.github.a0gajun.weather.data.entity.owp_common.Snow;
-import io.github.a0gajun.weather.data.entity.owp_common.Sys;
-import io.github.a0gajun.weather.data.entity.owp_common.Weather;
-import io.github.a0gajun.weather.data.entity.owp_common.Wind;
+import io.github.a0gajun.weather.data.entity.owm_common.Clouds;
+import io.github.a0gajun.weather.data.entity.owm_common.Coordinate;
+import io.github.a0gajun.weather.data.entity.owm_common.Main;
+import io.github.a0gajun.weather.data.entity.owm_common.Rain;
+import io.github.a0gajun.weather.data.entity.owm_common.Snow;
+import io.github.a0gajun.weather.data.entity.owm_common.Sys;
+import io.github.a0gajun.weather.data.entity.owm_common.Weather;
+import io.github.a0gajun.weather.data.entity.owm_common.Wind;
 import lombok.Getter;
 
 /**

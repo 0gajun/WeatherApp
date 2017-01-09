@@ -4,7 +4,7 @@
  *  @author Junya Ogasawara
  */
 
-package io.github.a0gajun.weather.data.entity.owp_common;
+package io.github.a0gajun.weather.data.entity.owm_common;
 
 import com.google.gson.annotations.SerializedName;
 
