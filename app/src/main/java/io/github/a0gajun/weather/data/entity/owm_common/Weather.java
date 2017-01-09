@@ -21,15 +21,18 @@ public class Weather {
     @SerializedName("id")
     private int id;
 
+    /**
+     * Group of weather parameters (Rain, Snow, Extreme etc.)
+     */
     @Getter
     @SerializedName("main")
-    private int main;
+    private String main;
 
     @Getter
     @SerializedName("description")
-    private int description;
+    private String description;
 
     @Getter
     @SerializedName("icon")
-    private int icon;
+    private String icon;
 }

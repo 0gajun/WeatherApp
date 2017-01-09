@@ -6,12 +6,21 @@
 
 package io.github.a0gajun.weather.data.entity.mapper;
 
+import android.support.annotation.Nullable;
+
 import javax.inject.Inject;
 
 import io.github.a0gajun.weather.data.entity.CurrentWeatherDataEntity;
+import io.github.a0gajun.weather.data.entity.mapper.util.MapperUtil;
+import io.github.a0gajun.weather.data.entity.owm_common.Main;
+import io.github.a0gajun.weather.data.entity.owm_common.Weather;
+import io.github.a0gajun.weather.data.entity.owm_common.Wind;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 
 /**
+ * Mapper class transforming {@link CurrentWeatherDataEntity} into
+ * {@link CurrentWeather}.
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 
@@ -21,9 +30,37 @@ public class CurrentWeatherMapper {
     CurrentWeatherMapper() {
     }
 
+    @Nullable
     public CurrentWeather transform(final CurrentWeatherDataEntity entity) {
-        // TODO: Implement
-        return new CurrentWeather();
-    }
+        if (entity == null || entity.getWeathers().isEmpty()) {
+            return null;
+        }
+        CurrentWeather model = new CurrentWeather();
+        model.setCountryCode(entity.getSys().getCountryCode());
+        model.setCityId(entity.getCityId());
+        model.setCityName(entity.getCityName());
+        model.setCalculatedAt(MapperUtil.convertUnixTimeIntoZonedDateTime(entity.getCalculatedAt()));
 
+        final Main main = entity.getMain();
+        model.setTemperature(main.getTemp());
+        model.setPressure(main.getPressure());
+        model.setHumidity(main.getHumidity());
+        model.setSeaLevel(main.getSeaLevel());
+        model.setGrandLevel(main.getGrndLevel());
+
+        final Weather weather = entity.getWeathers().get(0);
+        model.setWeather(weather.getMain());
+        model.setWeatherDescription(weather.getDescription());
+        model.setWeatherIconUrl(MapperUtil.convertWeatherIconIntoIconUrl(weather.getIcon()));
+
+        final Wind wind = entity.getWind();
+        model.setWindSpeed(wind.getSpeed());
+        model.setWindDegree(wind.getDeg());
+
+        model.setCloudiness(entity.getClouds().getAll());
+        model.setRainOfLast3Hour(entity.getRain().getThreeHour());
+        model.setSnowOfLast3Hour(entity.getSnow().getThreeHour());
+
+        return model;
+    }
 }

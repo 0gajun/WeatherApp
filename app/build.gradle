@@ -49,6 +49,7 @@ ext {
     threeTenAbpVersion = '1.0.4'
     glideVersion = '3.7.0'
     glideTransformationVersion = '2.0.1'
+    lightweightStreamApiVersion = '1.1.4'
 
     // Develop
     timberVersion = '4.4.0'
@@ -94,6 +95,8 @@ dependencies {
     // Glide : Image loading framework
     compile "com.github.bumptech.glide:glide:${glideVersion}"
     compile "jp.wasabeef:glide-transformations:${glideTransformationVersion}"
+    // Lightweight Stream Api : Stream API backporting library
+    compile "com.annimon:stream:${lightweightStreamApiVersion}"
 
     // LeakCanary : memory leak detection
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"

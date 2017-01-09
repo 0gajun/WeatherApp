@@ -34,10 +34,6 @@ public class FiveDayWeatherForecastDataEntity {
     private City city;
 
     @Getter
-    @SerializedName("coord")
-    private Coordinate coordinate;
-
-    @Getter
     @SerializedName("list")
     private List<Forecast> list;
 
