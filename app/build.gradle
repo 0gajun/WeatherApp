@@ -38,6 +38,7 @@ ext {
     recyclerViewVersion = '25.1.0'
 
     // Libraries
+    lombokVersion = '1.16.12'
     daggerVersion = '2.8'
     rxAndroidVersion = '1.2.1'
     rxJavaVersion = '1.2.4'
@@ -61,6 +62,7 @@ ext {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    provided "org.projectlombok:lombok:${lombokVersion}"
 
     ///////////////
     // Libraries //
