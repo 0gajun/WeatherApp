@@ -29,7 +29,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     private final FiveDayForecastMapper fiveDayForecastMapper;
 
     @Inject
-    public WeatherRepositoryImpl(WeatherDataStoreFactory weatherDataStoreFactory,
+    WeatherRepositoryImpl(WeatherDataStoreFactory weatherDataStoreFactory,
                                  CurrentWeatherMapper currentWeatherMapper,
                                  FiveDayForecastMapper fiveDayForecastMapper) {
         this.weatherDataStoreFactory = weatherDataStoreFactory;

@@ -18,7 +18,7 @@ import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 public class FiveDayForecastMapper {
 
     @Inject
-    public FiveDayForecastMapper() {
+    FiveDayForecastMapper() {
     }
 
     public FiveDayForecast transform(final FiveDayWeatherForecastDataEntity entity) {

@@ -12,5 +12,5 @@ import android.support.v7.app.AppCompatActivity;
  * Created by Junya Ogasawara on 1/9/17.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 }

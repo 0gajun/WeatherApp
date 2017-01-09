@@ -4,12 +4,13 @@
  *  @author Junya Ogasawara
  */
 
-package io.github.a0gajun.weather;
+package io.github.a0gajun.weather.presentation.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import io.github.a0gajun.weather.R;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -18,7 +18,7 @@ import io.github.a0gajun.weather.domain.model.CurrentWeather;
 public class CurrentWeatherMapper {
 
     @Inject
-    public CurrentWeatherMapper() {
+    CurrentWeatherMapper() {
     }
 
     public CurrentWeather transform(final CurrentWeatherDataEntity entity) {

@@ -19,7 +19,7 @@ public class WeatherDataStoreFactory {
     private final OpenWeatherMapApi openWeatherMapApi;
 
     @Inject
-    public WeatherDataStoreFactory(OpenWeatherMapApi openWeatherMapApi) {
+    WeatherDataStoreFactory(OpenWeatherMapApi openWeatherMapApi) {
         this.openWeatherMapApi = openWeatherMapApi;
     }
 
