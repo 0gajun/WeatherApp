@@ -7,12 +7,9 @@
 package io.github.a0gajun.weather.presentation.di.module;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.github.a0gajun.weather.data.net.OpenWeatherMapApi;
-import io.github.a0gajun.weather.data.repository.WeatherRepositoryImpl;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
@@ -20,7 +17,6 @@ import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
 import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
-import retrofit2.Retrofit;
 
 /**
  * Dagger module that provides weather related collaborators.
@@ -29,25 +25,12 @@ import retrofit2.Retrofit;
  */
 
 @Module
-public class WeatherModule extends NetModule {
+public class WeatherModule {
 
     private final String zipCode;
 
-    public WeatherModule(String baseUrl, String zipCode) {
-        super(baseUrl);
+    public WeatherModule(String zipCode) {
         this.zipCode = zipCode;
-    }
-
-    @Provides
-    @PerActivity
-    OpenWeatherMapApi provideOpenWeatherApi(Retrofit retrofit) {
-        return retrofit.create(OpenWeatherMapApi.class);
-    }
-
-    @Provides
-    @Singleton
-    WeatherRepository provideWeatherRepository(WeatherRepositoryImpl weatherRepositoryImpl) {
-        return weatherRepositoryImpl;
     }
 
     @Provides
@@ -62,7 +45,7 @@ public class WeatherModule extends NetModule {
     @PerActivity
     @Named("fiveDayForecast")
     UseCase provideGetFiveDayForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
-                                     PostExecutionThread postExecutionThread) {
+                                      PostExecutionThread postExecutionThread) {
         return new GetFiveDayForecast(this.zipCode, weatherRepository, threadExecutor, postExecutionThread);
     }
 }

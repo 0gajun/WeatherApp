@@ -6,6 +6,8 @@
 
 package io.github.a0gajun.weather.domain.model;
 
+import android.databinding.Bindable;
+
 import org.threeten.bp.ZonedDateTime;
 
 import lombok.Getter;

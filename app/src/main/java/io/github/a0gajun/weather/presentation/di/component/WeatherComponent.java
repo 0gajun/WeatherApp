@@ -9,6 +9,7 @@ package io.github.a0gajun.weather.presentation.di.component;
 import dagger.Component;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
 import io.github.a0gajun.weather.presentation.di.module.WeatherModule;
+import io.github.a0gajun.weather.presentation.view.fragment.MainFragment;
 
 /**
  * Created by Junya Ogasawara on 1/9/17.
@@ -17,5 +18,5 @@ import io.github.a0gajun.weather.presentation.di.module.WeatherModule;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {WeatherModule.class})
 public interface WeatherComponent {
-
+    void inject(MainFragment mainFragment);
 }

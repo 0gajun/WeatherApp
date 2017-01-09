@@ -20,7 +20,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", "\"${project.property("openWeatherMapApiKey")}\""
+        }
+
         release {
+            buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", "\"${project.property("openWeatherMapApiKey")}\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -50,6 +55,7 @@ ext {
     glideVersion = '3.7.0'
     glideTransformationVersion = '2.0.1'
     lightweightStreamApiVersion = '1.1.4'
+    weatherIconViewVersion = '1.1.0'
 
     // Develop
     timberVersion = '4.4.0'
@@ -70,6 +76,7 @@ dependencies {
     ///////////////
 
     // Support Library
+    compile "com.android.support:design:${supportLibraryVersion}"
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile "com.android.support:recyclerview-v7:${recyclerViewVersion}"
     // Dagger : DI library
@@ -88,7 +95,7 @@ dependencies {
     compile "com.google.code.gson:gson:${gsonVersion}"
     // Timber : logging library
     compile "com.jakewharton.timber:timber:${timberVersion}"
-    // Eventbus
+    // EventBus
     compile "org.greenrobot:eventbus:${eventBusVersion}"
     // ThreeTenABP : JSR-310 backport for android
     compile "com.jakewharton.threetenabp:threetenabp:${threeTenAbpVersion}"
@@ -97,6 +104,8 @@ dependencies {
     compile "jp.wasabeef:glide-transformations:${glideTransformationVersion}"
     // Lightweight Stream Api : Stream API backporting library
     compile "com.annimon:stream:${lightweightStreamApiVersion}"
+    // WeatherIconView
+    compile "com.github.pwittchen:weathericonview:${weatherIconViewVersion}"
 
     // LeakCanary : memory leak detection
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"

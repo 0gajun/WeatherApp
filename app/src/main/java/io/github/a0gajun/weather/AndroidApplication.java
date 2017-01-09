@@ -11,6 +11,11 @@ import android.app.Application;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 
+import io.github.a0gajun.weather.presentation.di.component.ApplicationComponent;
+import io.github.a0gajun.weather.presentation.di.component.DaggerApplicationComponent;
+import io.github.a0gajun.weather.presentation.di.module.ApplicationModule;
+import io.github.a0gajun.weather.presentation.di.module.NetModule;
+import io.github.a0gajun.weather.presentation.di.module.RepositoryModule;
 import timber.log.Timber;
 
 /**
@@ -18,13 +23,25 @@ import timber.log.Timber;
  */
 
 public class AndroidApplication extends Application {
+
+    private ApplicationComponent applicationComponent;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        initializeInjector();
         this.initializeLeakDetection();
         this.initializeTimber();
         AndroidThreeTen.init(this);
+    }
+
+    private void initializeInjector() {
+        this.applicationComponent = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .repositoryModule(new RepositoryModule())
+                .netModule(new NetModule())
+                .build();
     }
 
     private void initializeTimber() {
@@ -40,5 +57,9 @@ public class AndroidApplication extends Application {
         if (BuildConfig.DEBUG) {
             LeakCanary.install(this);
         }
+    }
+
+    public ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
     }
 }

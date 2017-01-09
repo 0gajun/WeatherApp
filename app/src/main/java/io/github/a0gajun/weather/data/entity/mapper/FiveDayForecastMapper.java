@@ -76,8 +76,13 @@ public class FiveDayForecastMapper {
         data.setWindDegree(wind.getDeg());
 
         data.setCloudiness(forecast.getClouds().getAll());
-        data.setRainOfLast3Hour(forecast.getRain().getThreeHour());
-        data.setSnowOfLast3Hour(forecast.getSnow().getThreeHour());
+        //TODO: Handling properly
+        if (forecast.getRain() != null) {
+            data.setRainOfLast3Hour(forecast.getRain().getThreeHour());
+        }
+        if (forecast.getSnow() != null) {
+            data.setSnowOfLast3Hour(forecast.getSnow().getThreeHour());
+        }
 
         return data;
     }

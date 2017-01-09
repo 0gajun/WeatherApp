@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weather</string>
+
+    <string name="celsius_degree_fmt">%f°C</string>
 </resources>

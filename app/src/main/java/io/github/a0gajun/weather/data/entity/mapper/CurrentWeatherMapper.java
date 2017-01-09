@@ -58,8 +58,13 @@ public class CurrentWeatherMapper {
         model.setWindDegree(wind.getDeg());
 
         model.setCloudiness(entity.getClouds().getAll());
-        model.setRainOfLast3Hour(entity.getRain().getThreeHour());
-        model.setSnowOfLast3Hour(entity.getSnow().getThreeHour());
+        //TODO: Handling properly
+        if (entity.getRain() != null) {
+            model.setRainOfLast3Hour(entity.getRain().getThreeHour());
+        }
+        if (entity.getSnow() != null) {
+            model.setSnowOfLast3Hour(entity.getSnow().getThreeHour());
+        }
 
         return model;
     }
