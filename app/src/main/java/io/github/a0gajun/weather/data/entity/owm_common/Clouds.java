@@ -12,7 +12,7 @@ import lombok.Getter;
 
 /**
  * Open Weather Map's common data structure representing Cloudiness.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

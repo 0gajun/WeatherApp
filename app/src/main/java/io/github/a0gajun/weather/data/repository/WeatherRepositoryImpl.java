@@ -30,8 +30,8 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
     @Inject
     WeatherRepositoryImpl(WeatherDataStoreFactory weatherDataStoreFactory,
-                                 CurrentWeatherMapper currentWeatherMapper,
-                                 FiveDayForecastMapper fiveDayForecastMapper) {
+                          CurrentWeatherMapper currentWeatherMapper,
+                          FiveDayForecastMapper fiveDayForecastMapper) {
         this.weatherDataStoreFactory = weatherDataStoreFactory;
         this.currentWeatherMapper = currentWeatherMapper;
         this.fiveDayForecastMapper = fiveDayForecastMapper;
@@ -39,7 +39,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
     @Override
     public Observable<CurrentWeather> currentWeather(String zipCode) {
-        final Pair<String, String> cityNameCountryCodePair = converZipCodeToCityNameAndCountryCode(zipCode);
+        final Pair<String, String> cityNameCountryCodePair = convertZipCodeToCityNameAndCountryCode(zipCode);
 
         return this.weatherDataStoreFactory.create()
                 .currentWeatherEntity(cityNameCountryCodePair.first, cityNameCountryCodePair.second)
@@ -48,7 +48,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
     @Override
     public Observable<FiveDayForecast> fiveDayForecast(String zipCode) {
-        final Pair<String, String> cityNameCountryCodePair = converZipCodeToCityNameAndCountryCode(zipCode);
+        final Pair<String, String> cityNameCountryCodePair = convertZipCodeToCityNameAndCountryCode(zipCode);
 
         return this.weatherDataStoreFactory.create()
                 .fiveDayWeatherForecastEntity(cityNameCountryCodePair.first, cityNameCountryCodePair.second)
@@ -56,7 +56,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
 
-    private Pair<String, String> converZipCodeToCityNameAndCountryCode(final String zipCode) {
+    private Pair<String, String> convertZipCodeToCityNameAndCountryCode(final String zipCode) {
         // TODO: implement
         return new Pair<>("Kawasaki", "JP");
     }

@@ -15,7 +15,7 @@ import lombok.Setter;
 
 /**
  * Model representing 5 day forecast includes weather data every 3 hours.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

@@ -13,7 +13,7 @@ import lombok.Setter;
 
 /**
  * Model representing current weather data.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

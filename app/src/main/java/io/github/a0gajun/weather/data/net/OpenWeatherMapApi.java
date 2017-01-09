@@ -15,7 +15,7 @@ import rx.Observable;
 /**
  * Retrofit interface definition for OpenWeatherMap Api.
  * (http://openweathermap.org/)
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

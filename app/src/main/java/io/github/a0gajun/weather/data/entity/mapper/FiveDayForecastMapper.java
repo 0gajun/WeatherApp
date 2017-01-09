@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
-
 import javax.inject.Inject;
 
 import io.github.a0gajun.weather.data.entity.FiveDayWeatherForecastDataEntity;

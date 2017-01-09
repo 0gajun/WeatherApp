@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
 
 /**
  * Dagger module that provides weather related collaborators.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

@@ -12,7 +12,7 @@ import lombok.Getter;
 
 /**
  * Open Weather Map's common data structure representing Rain volume for the last 3 hours.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

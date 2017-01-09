@@ -12,7 +12,6 @@ import java.util.List;
 
 import io.github.a0gajun.weather.data.entity.owm_common.City;
 import io.github.a0gajun.weather.data.entity.owm_common.Clouds;
-import io.github.a0gajun.weather.data.entity.owm_common.Coordinate;
 import io.github.a0gajun.weather.data.entity.owm_common.Main;
 import io.github.a0gajun.weather.data.entity.owm_common.Rain;
 import io.github.a0gajun.weather.data.entity.owm_common.Snow;
@@ -23,7 +22,7 @@ import lombok.Getter;
 /**
  * Entity class of 5day weather forecast API (provided by OpenWeatherMap)
  * This api documentation is here -> http://openweathermap.org/forecast5
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 
@@ -73,7 +72,7 @@ public class FiveDayWeatherForecastDataEntity {
         private Snow snow;
 
         /**
-         *  Data/time of caluclation, UTC
+         * Data/time of caluclation, UTC
          */
         @Getter
         @SerializedName("dt_txt")

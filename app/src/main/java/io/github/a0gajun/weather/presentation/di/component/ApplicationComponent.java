@@ -13,7 +13,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import io.github.a0gajun.weather.presentation.di.module.ApplicationModule;
-import io.github.a0gajun.weather.presentation.di.module.NetModule;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
 
 /**
@@ -29,5 +28,6 @@ public interface ApplicationComponent {
 
     // ApplicationModule
     Application application();
+
     Context context();
 }
