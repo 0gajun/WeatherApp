@@ -14,6 +14,6 @@ import org.robolectric.annotation.Config;
  * Created by Junya Ogasawara on 1/9/17.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants =  BuildConfig.class, sdk = 21, application = TestApplication.class)
-public class ApplicationTestCase {
+@Config(constants = BuildConfig.class, sdk = 21, application = TestApplication.class)
+public abstract class ApplicationTestCase {
 }

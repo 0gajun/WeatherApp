@@ -6,6 +6,8 @@
 
 package io.github.a0gajun.weather.domain.model;
 
+import android.support.annotation.DrawableRes;
+
 import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class FiveDayForecast {
     @Getter @Setter private String cityName;
 
     @Getter @Setter private String countryCode;
+
+    @Getter @Setter private String countryName;
 
     @Getter @Setter private List<EveryThreeHoursForecastData> forecastData;
 
@@ -54,6 +58,8 @@ public class FiveDayForecast {
 
         @Getter @Setter private String weatherIconUrl;
 
+        @Getter @Setter @DrawableRes private int weatherIconResId;
+
         // wind
         @Getter @Setter private float windSpeed;
 
@@ -65,7 +71,7 @@ public class FiveDayForecast {
         // rain
         @Getter @Setter private int rainOfLast3Hour;
 
-        // snow
+        // ic_snow
         @Getter @Setter private int snowOfLast3Hour;
 
         /**

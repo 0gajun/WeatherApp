@@ -74,7 +74,7 @@ public class CurrentWeatherDataEntity {
     private Rain rain;
 
     @Getter
-    @SerializedName("snow")
+    @SerializedName("ic_snow")
     private Snow snow;
 
     @Getter

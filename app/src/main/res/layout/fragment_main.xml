@@ -1,48 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+        xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
+
         <variable
             name="currentWeather"
-            type="io.github.a0gajun.weather.domain.model.CurrentWeather" />
+            type="io.github.a0gajun.weather.domain.model.CurrentWeather"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/city_name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Kawasaki"/>
+            android:layout_marginTop="@dimen/margin"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/city_name"
-            tools:text="Sunny"/>
-        
-        <TextView
-            android:id="@+id/temperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/weather"
-            tools:text="12℃"/>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_location"/>
 
-        <!--
-        <com.github.pwittchen.weathericonview.WeatherIconView
-            android:id="@+id/my_weather_icon"
+            <TextView
+                android:id="@+id/city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Kawasaki"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" , "
+                tools:text=" , "/>
+
+            <TextView
+                android:id="@+id/country_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Japan"/>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:src="@drawable/leak_canary_icon"
-            custom:weatherIconResource="@string/wi_day_sunny_overcast"
-            custom:weatherIconColor="@android:color/black"
-            custom:weatherIconSize="100" />
-            -->
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_broken_clouds"
+                android:layout_centerHorizontal="true"
+                android:tint="@color/defaultColorText"/>
+
+
+            <TextView
+                android:id="@+id/weather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weather_icon"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/text_size_large"
+                tools:text="Sunny"/>
+
+            <TextView
+                android:id="@+id/weather_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weather"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/text_size_medium"
+                tools:text="Sunny"/>
+
+            <TextView
+                android:id="@+id/temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weather_desc"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/text_size_large"
+                tools:text="12℃"/>
+
+
+            <!--
+            <com.github.pwittchen.weathericonview.WeatherIconView
+                android:id="@+id/my_weather_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/leak_canary_icon"
+                custom:weatherIconResource="@string/wi_day_sunny_overcast"
+                custom:weatherIconColor="@android:color/black"
+                custom:weatherIconSize="100" />
+                -->
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

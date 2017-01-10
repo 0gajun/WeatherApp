@@ -45,6 +45,7 @@ public class FiveDayForecastMapper {
         model.setCityId(city.getId());
         model.setCityName(city.getName());
         model.setCountryCode(city.getCountryCode());
+        model.setCountryName(MapperUtil.convertCountryCodeToCountryName(city.getCountryCode()));
 
         model.setForecastData(
                 Stream.of(entity.getList())
@@ -70,12 +71,14 @@ public class FiveDayForecastMapper {
         data.setWeather(weather.getMain());
         data.setWeatherDescription(weather.getDescription());
         data.setWeatherIconUrl(MapperUtil.convertWeatherIconIntoIconUrl(weather.getIcon()));
+        data.setWeatherIconResId(MapperUtil.convertWeatherIconIntoIconResId(weather.getIcon()));
 
         final Wind wind = forecast.getWind();
         data.setWindSpeed(wind.getSpeed());
         data.setWindDegree(wind.getDeg());
 
         data.setCloudiness(forecast.getClouds().getAll());
+
         //TODO: Handling properly
         if (forecast.getRain() != null) {
             data.setRainOfLast3Hour(forecast.getRain().getThreeHour());

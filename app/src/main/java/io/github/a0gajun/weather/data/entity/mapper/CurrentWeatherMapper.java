@@ -37,6 +37,7 @@ public class CurrentWeatherMapper {
         }
         CurrentWeather model = new CurrentWeather();
         model.setCountryCode(entity.getSys().getCountryCode());
+        model.setCountryName(MapperUtil.convertCountryCodeToCountryName(entity.getSys().getCountryCode()));
         model.setCityId(entity.getCityId());
         model.setCityName(entity.getCityName());
         model.setCalculatedAt(MapperUtil.convertUnixTimeIntoZonedDateTime(entity.getCalculatedAt()));
@@ -52,6 +53,7 @@ public class CurrentWeatherMapper {
         model.setWeather(weather.getMain());
         model.setWeatherDescription(weather.getDescription());
         model.setWeatherIconUrl(MapperUtil.convertWeatherIconIntoIconUrl(weather.getIcon()));
+        model.setWeatherIconResId(MapperUtil.convertWeatherIconIntoIconResId(weather.getIcon()));
 
         final Wind wind = entity.getWind();
         model.setWindSpeed(wind.getSpeed());

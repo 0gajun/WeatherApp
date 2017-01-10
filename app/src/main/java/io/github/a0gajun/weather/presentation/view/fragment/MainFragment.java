@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import javax.inject.Inject;
 
 import io.github.a0gajun.weather.R;
@@ -76,9 +78,13 @@ public class MainFragment extends BaseFragment implements MainView {
 
     @Override
     public void renderCurrentWeather(CurrentWeather currentWeather) {
+        // TODO: cannot use databinding due to lombok...
         binding.setCurrentWeather(currentWeather);
         binding.cityName.setText(currentWeather.getCityName());
+        binding.countryName.setText(currentWeather.getCountryName());
         binding.temperature.setText(getString(R.string.celsius_degree_fmt, currentWeather.getTemperature()));
         binding.weather.setText(currentWeather.getWeather());
+        binding.weatherDesc.setText(currentWeather.getWeatherDescription());
+        binding.weatherIcon.setImageResource(currentWeather.getWeatherIconResId());
     }
 }

@@ -7,6 +7,7 @@
 package io.github.a0gajun.weather.domain.model;
 
 import android.databinding.Bindable;
+import android.support.annotation.DrawableRes;
 
 import org.threeten.bp.ZonedDateTime;
 
@@ -22,6 +23,8 @@ import lombok.Setter;
 public class CurrentWeather {
 
     @Getter @Setter private String countryCode;
+
+    @Getter @Setter private String countryName;
 
     @Getter @Setter private int cityId;
 
@@ -47,6 +50,8 @@ public class CurrentWeather {
 
     @Getter @Setter private String weatherIconUrl;
 
+    @Getter @Setter @DrawableRes private int weatherIconResId;
+
     // wind
     @Getter @Setter private float windSpeed;
 
@@ -58,6 +63,6 @@ public class CurrentWeather {
     // rain
     @Getter @Setter private int rainOfLast3Hour;
 
-    // snow
+    // ic_snow
     @Getter @Setter private int snowOfLast3Hour;
 }
