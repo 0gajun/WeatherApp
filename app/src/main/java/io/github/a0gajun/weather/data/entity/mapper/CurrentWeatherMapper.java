@@ -7,6 +7,11 @@
 package io.github.a0gajun.weather.data.entity.mapper;
 
 import android.support.annotation.Nullable;
+import android.support.v7.app.WindowDecorActionBar;
+
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
 
 import javax.inject.Inject;
 
@@ -16,6 +21,7 @@ import io.github.a0gajun.weather.data.entity.owm_common.Main;
 import io.github.a0gajun.weather.data.entity.owm_common.Weather;
 import io.github.a0gajun.weather.data.entity.owm_common.Wind;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
+import timber.log.Timber;
 
 /**
  * Mapper class transforming {@link CurrentWeatherDataEntity} into

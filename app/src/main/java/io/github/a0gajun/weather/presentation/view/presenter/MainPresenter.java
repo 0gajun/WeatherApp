@@ -6,11 +6,17 @@
 
 package io.github.a0gajun.weather.presentation.view.presenter;
 
+import com.annimon.stream.Stream;
+
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.github.a0gajun.weather.data.entity.owm_common.Main;
+import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
+import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.view.MainView;
@@ -27,6 +33,7 @@ public class MainPresenter implements Presenter {
 
     private MainView mainView;
     private CurrentWeather currentWeather;
+    private FiveDayForecast fiveDayForecast;
 
     @Inject
     public MainPresenter(@Named("currentWeather") UseCase currentWeatherUseCase,
@@ -59,20 +66,33 @@ public class MainPresenter implements Presenter {
 
     public void initialize() {
         loadCurrentWeather();
+        loadEveryThreeHoursForecast();
     }
 
     private void setCurrentWeather(CurrentWeather currentWeather) {
         this.currentWeather = currentWeather;
     }
 
+    public void setFiveDayForecast(FiveDayForecast fiveDayForecast) {
+        this.fiveDayForecast = fiveDayForecast;
+    }
+
     private void render() {
         if (this.currentWeather != null) {
             this.mainView.renderCurrentWeather(this.currentWeather);
+        }
+        if (this.fiveDayForecast != null) {
+            //this.mainView.renderEveryThreeHoursForecast(new ArrayList<>(this.fiveDayForecast.getForecastData().subList(0, 6)));
+            this.mainView.renderEveryThreeHoursForecast(this.fiveDayForecast.getForecastData());
         }
     }
 
     private void loadCurrentWeather() {
         this.currentWeatherUseCase.execute(new CurrentWeatherSubscriber());
+    }
+
+    private void loadEveryThreeHoursForecast() {
+        this.fiveDayForecastUseCase.execute(new FiveDayForecastSubscriber());
     }
 
     private final class CurrentWeatherSubscriber extends DefaultSubscriber<CurrentWeather> {
@@ -85,6 +105,20 @@ public class MainPresenter implements Presenter {
         @Override
         public void onNext(CurrentWeather currentWeather) {
             MainPresenter.this.setCurrentWeather(currentWeather);
+            MainPresenter.this.render();
+        }
+    }
+
+    private final class FiveDayForecastSubscriber extends DefaultSubscriber<FiveDayForecast> {
+        @Override
+        public void onError(Throwable e) {
+            Timber.e(e);
+            super.onError(e);
+        }
+
+        @Override
+        public void onNext(FiveDayForecast fiveDayForecast) {
+            MainPresenter.this.setFiveDayForecast(fiveDayForecast);
             MainPresenter.this.render();
         }
     }

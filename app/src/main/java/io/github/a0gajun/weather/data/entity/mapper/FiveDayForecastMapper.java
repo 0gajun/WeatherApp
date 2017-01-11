@@ -11,6 +11,12 @@ import android.support.annotation.Nullable;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZoneOffset;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+
 import javax.inject.Inject;
 
 import io.github.a0gajun.weather.data.entity.FiveDayWeatherForecastDataEntity;
@@ -30,6 +36,7 @@ import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 
 public class FiveDayForecastMapper {
 
+    private static final DateTimeFormatter CALCULATED_AT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Inject
     FiveDayForecastMapper() {
     }
@@ -50,15 +57,22 @@ public class FiveDayForecastMapper {
         model.setForecastData(
                 Stream.of(entity.getList())
                         .map(this::transformForecast)
+                        .filter(value -> value != null)
                         .collect(Collectors.toList())
         );
         return model;
     }
 
+    @Nullable
     private FiveDayForecast.EveryThreeHoursForecastData transformForecast(final FiveDayWeatherForecastDataEntity.Forecast forecast) {
+        if (forecast.getWeathers().isEmpty()) {
+            return null;
+        }
         FiveDayForecast.EveryThreeHoursForecastData data = new FiveDayForecast.EveryThreeHoursForecastData();
 
         data.setForecastAt(MapperUtil.convertUnixTimeIntoZonedDateTime(forecast.getTime()));
+        LocalDateTime ldt = LocalDateTime.parse(forecast.getCalculatedAt(), CALCULATED_AT_FORMATTER);
+        data.setForecastAt(ZonedDateTime.ofInstant(ldt.toInstant(ZoneOffset.UTC), ZoneId.systemDefault()));
 
         final Main main = forecast.getMain();
         data.setTemperature(main.getTemp());
@@ -67,7 +81,7 @@ public class FiveDayForecastMapper {
         data.setSeaLevel(main.getSeaLevel());
         data.setGrandLevel(main.getGrndLevel());
 
-        final Weather weather = forecast.getWeather();
+        final Weather weather = forecast.getWeathers().get(0);
         data.setWeather(weather.getMain());
         data.setWeatherDescription(weather.getDescription());
         data.setWeatherIconUrl(MapperUtil.convertWeatherIconIntoIconUrl(weather.getIcon()));

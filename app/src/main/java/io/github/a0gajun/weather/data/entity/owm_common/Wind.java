@@ -24,5 +24,5 @@ public class Wind {
 
     @Getter
     @SerializedName("deg")
-    private int deg;
+    private float deg;
 }

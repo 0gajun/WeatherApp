@@ -51,7 +51,7 @@ public class MapperUtil {
     }};
 
     public static ZonedDateTime convertUnixTimeIntoZonedDateTime(final long unixTime) {
-        final Instant instant = Instant.ofEpochMilli(unixTime);
+        final Instant instant = Instant.ofEpochSecond(unixTime);
         return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 

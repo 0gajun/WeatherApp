@@ -6,22 +6,28 @@
 
 package io.github.a0gajun.weather.presentation.view.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Collection;
+
 import javax.inject.Inject;
 
 import io.github.a0gajun.weather.R;
 import io.github.a0gajun.weather.databinding.FragmentMainBinding;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
+import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import io.github.a0gajun.weather.presentation.di.component.WeatherComponent;
 import io.github.a0gajun.weather.presentation.view.MainView;
+import io.github.a0gajun.weather.presentation.view.adapter.EveryThreeHoursForecastAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.MainPresenter;
 
 /**
@@ -31,6 +37,7 @@ import io.github.a0gajun.weather.presentation.view.presenter.MainPresenter;
 public class MainFragment extends BaseFragment implements MainView {
 
     @Inject MainPresenter mainPresenter;
+    @Inject EveryThreeHoursForecastAdapter everyThreeHoursForecastAdapter;
 
     private FragmentMainBinding binding;
 
@@ -51,6 +58,7 @@ public class MainFragment extends BaseFragment implements MainView {
         super.onViewCreated(view, savedInstanceState);
 
         this.binding = FragmentMainBinding.bind(getView());
+        setUpRecyclerView();
 
         this.mainPresenter.setView(this);
         if (savedInstanceState == null) {
@@ -86,5 +94,19 @@ public class MainFragment extends BaseFragment implements MainView {
         binding.weather.setText(currentWeather.getWeather());
         binding.weatherDesc.setText(currentWeather.getWeatherDescription());
         binding.weatherIcon.setImageResource(currentWeather.getWeatherIconResId());
+    }
+
+    @Override
+    public void renderEveryThreeHoursForecast(Collection<FiveDayForecast.EveryThreeHoursForecastData> forecastData) {
+        this.everyThreeHoursForecastAdapter.setForecastDataList(forecastData);
+    }
+
+    private Context context() {
+        return this.getActivity().getApplicationContext();
+    }
+
+    private void setUpRecyclerView() {
+        this.binding.rvForecast.setLayoutManager(new LinearLayoutManager(context(), LinearLayoutManager.HORIZONTAL, false));
+        this.binding.rvForecast.setAdapter(this.everyThreeHoursForecastAdapter);
     }
 }

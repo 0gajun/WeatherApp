@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/defaultColorText"
+            tools:text="10:00"/>
+
+        <ImageView
+            android:id="@+id/weather_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/time"
+            tools:src="@drawable/ic_day_clear_sky"/>
+
+        <TextView
+            android:id="@+id/weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weather_icon"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/defaultColorText"
+            tools:text="Sunny"/>
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weather"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/defaultColorText"
+            tools:text="10.0℃"/>
+    </RelativeLayout>
+
+</layout>

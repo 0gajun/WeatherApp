@@ -53,7 +53,7 @@ public class FiveDayWeatherForecastDataEntity {
 
         @Getter
         @SerializedName("weather")
-        private Weather weather;
+        private List<Weather> weathers;
 
         @Getter
         @SerializedName("clouds")

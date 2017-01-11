@@ -26,6 +26,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -58,6 +59,8 @@ public class NetModule {
     @Singleton
     @Provides
     OkHttpClient provideOkHttpClient(Cache cache) {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request request = chain.request();
@@ -65,6 +68,7 @@ public class NetModule {
                     request = request.newBuilder().url(url).build();
                     return chain.proceed(request);
                 })
+                .addInterceptor(loggingInterceptor)
                 .cache(cache)
                 .build();
     }

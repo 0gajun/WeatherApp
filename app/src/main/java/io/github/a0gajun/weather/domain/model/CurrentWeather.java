@@ -35,7 +35,7 @@ public class CurrentWeather {
     // main
     @Getter @Setter private float temperature;
 
-    @Getter @Setter private int pressure;
+    @Getter @Setter private float pressure;
 
     @Getter @Setter private int humidity;
 
@@ -61,8 +61,8 @@ public class CurrentWeather {
     @Getter @Setter private int cloudiness;
 
     // rain
-    @Getter @Setter private int rainOfLast3Hour;
+    @Getter @Setter private float rainOfLast3Hour;
 
     // ic_snow
-    @Getter @Setter private int snowOfLast3Hour;
+    @Getter @Setter private float snowOfLast3Hour;
 }

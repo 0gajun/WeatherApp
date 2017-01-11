@@ -25,7 +25,7 @@ public class Main {
 
     @Getter
     @SerializedName("pressure")
-    private int pressure;
+    private float pressure;
 
     @Getter
     @SerializedName("humidity")

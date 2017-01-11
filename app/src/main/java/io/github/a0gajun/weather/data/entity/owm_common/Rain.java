@@ -23,5 +23,5 @@ public class Rain {
      */
     @Getter
     @SerializedName("3h")
-    private int threeHour;
+    private float threeHour;
 }
