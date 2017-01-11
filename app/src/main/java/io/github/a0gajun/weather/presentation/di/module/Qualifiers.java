@@ -12,4 +12,6 @@ package io.github.a0gajun.weather.presentation.di.module;
 
 public class Qualifiers {
     public static final String OPEN_WHETHER_MAP_API = "open_weather_map_api";
+
+    public static final String GOOGLE_MAPS_API = "google_maps_api";
 }

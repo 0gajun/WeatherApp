@@ -22,10 +22,12 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", "\"${project.property("openWeatherMapApiKey")}\""
+            buildConfigField "String", "GOOGLE_MAPS_API_KEY", "\"${project.property("googleMapsApiKey")}\""
         }
 
         release {
             buildConfigField "String", "OPEN_WEATHER_MAP_API_KEY", "\"${project.property("openWeatherMapApiKey")}\""
+            buildConfigField "String", "GOOGLE_MAPS_API_KEY", "\"${project.property("googleMapsApiKey")}\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
