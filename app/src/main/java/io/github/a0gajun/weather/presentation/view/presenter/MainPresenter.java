@@ -6,6 +6,8 @@
 
 package io.github.a0gajun.weather.presentation.view.presenter;
 
+import android.location.Location;
+
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
@@ -18,8 +20,10 @@ import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;
+import io.github.a0gajun.weather.domain.usecase.GetCurrentLocation;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.view.MainView;
+import rx.Subscriber;
 import timber.log.Timber;
 
 /**
@@ -30,6 +34,7 @@ public class MainPresenter implements Presenter {
 
     private final UseCase currentWeatherUseCase;
     private final UseCase fiveDayForecastUseCase;
+    private final UseCase currentLocationUseCase;
 
     private MainView mainView;
     private CurrentWeather currentWeather;
@@ -37,9 +42,11 @@ public class MainPresenter implements Presenter {
 
     @Inject
     public MainPresenter(@Named("currentWeather") UseCase currentWeatherUseCase,
-                         @Named("fiveDayForecast") UseCase fiveDayForecastUseCase) {
+                         @Named("fiveDayForecast") UseCase fiveDayForecastUseCase,
+                         GetCurrentLocation getCurrentLocation) {
         this.currentWeatherUseCase = currentWeatherUseCase;
         this.fiveDayForecastUseCase = fiveDayForecastUseCase;
+        this.currentLocationUseCase = getCurrentLocation;
     }
 
     public void setView(MainView mainView) {
@@ -62,11 +69,28 @@ public class MainPresenter implements Presenter {
         this.currentWeather = null;
         this.currentWeatherUseCase.unsubscribe();
         this.fiveDayForecastUseCase.unsubscribe();
+        this.currentLocationUseCase.unsubscribe();
     }
 
     public void initialize() {
         loadCurrentWeather();
         loadEveryThreeHoursForecast();
+        this.currentLocationUseCase.execute(new Subscriber<Location>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Location location) {
+                Timber.d(location.toString());
+            }
+        });
     }
 
     private void setCurrentWeather(CurrentWeather currentWeather) {

@@ -15,6 +15,7 @@ import dagger.Component;
 import io.github.a0gajun.weather.data.net.OpenWeatherMapApi;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
+import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.presentation.di.module.ApplicationModule;
 import io.github.a0gajun.weather.presentation.di.module.NetModule;
@@ -46,4 +47,6 @@ public interface ApplicationComponent {
 
     // RepositoryModule
     WeatherRepository weatherRepository();
+
+    LocationRepository locationRepository();
 }

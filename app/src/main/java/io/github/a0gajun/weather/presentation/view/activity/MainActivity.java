@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity
     private void initializeInjector() {
         this.weatherComponent = DaggerWeatherComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .weatherModule(new WeatherModule("270-1609")) // TODO: Handling correctly
+                .weatherModule(new WeatherModule("223-0061")) // TODO: Handling correctly
                 .build();
     }
 

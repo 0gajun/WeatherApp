@@ -43,6 +43,7 @@ ext {
     // Android
     supportLibraryVersion = '25.1.0'
     recyclerViewVersion = '25.1.0'
+    googlePlayServiceVersion = '10.0.1'
 
     // Libraries
     lombokVersion = '1.16.12'
@@ -80,6 +81,8 @@ dependencies {
     compile "com.android.support:design:${supportLibraryVersion}"
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile "com.android.support:recyclerview-v7:${recyclerViewVersion}"
+    // Google Play Service
+    compile "com.google.android.gms:play-services-location:${googlePlayServiceVersion}"
     // Dagger : DI library
     compile "com.google.dagger:dagger:${daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
