@@ -24,16 +24,26 @@ class CloudWeatherDataStore implements WeatherDataStore {
     }
 
     @Override
-    public Observable<CurrentWeatherDataEntity> currentWeatherEntity(String cityName, String countryCode) {
+    public Observable<CurrentWeatherDataEntity> currentWeatherEntityWithCityName(String cityName, String countryCode) {
         return this.openWeatherMapApi.getCurrentWeather(constructQueryParameter(cityName, countryCode));
     }
 
     @Override
-    public Observable<FiveDayWeatherForecastDataEntity> fiveDayWeatherForecastEntity(String cityName, String countryCode) {
+    public Observable<FiveDayWeatherForecastDataEntity> fiveDayWeatherForecastEntityWithCityName(String cityName, String countryCode) {
         return this.openWeatherMapApi.getFiveDayWeatherForecast(constructQueryParameter(cityName, countryCode));
     }
 
-    private String constructQueryParameter(final String cityName, final String countryCode) {
-        return cityName + "," + countryCode;
+    @Override
+    public Observable<CurrentWeatherDataEntity> currentWeatherEntityWithZipCode(String zipCode, String countryCode) {
+        return this.openWeatherMapApi.getCurrentWeatherByZipCode(constructQueryParameter(zipCode, countryCode));
+    }
+
+    @Override
+    public Observable<FiveDayWeatherForecastDataEntity> fiveDayWeatherForecastEntityWithZipCode(String zipCode, String countryCode) {
+        return this.openWeatherMapApi.getFiveDayWeatherForecastByZipCode(constructQueryParameter(zipCode, countryCode));
+    }
+
+    private String constructQueryParameter(final String query, final String countryCode) {
+        return query + "," + countryCode;
     }
 }

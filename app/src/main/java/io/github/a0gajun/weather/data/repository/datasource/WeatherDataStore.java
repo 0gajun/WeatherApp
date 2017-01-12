@@ -15,7 +15,11 @@ import rx.Observable;
  */
 
 public interface WeatherDataStore {
-    Observable<CurrentWeatherDataEntity> currentWeatherEntity(final String cityName, final String countryCode);
+    Observable<CurrentWeatherDataEntity> currentWeatherEntityWithCityName(final String cityName, final String countryCode);
 
-    Observable<FiveDayWeatherForecastDataEntity> fiveDayWeatherForecastEntity(final String cityName, final String countryCode);
+    Observable<CurrentWeatherDataEntity> currentWeatherEntityWithZipCode(final String zipCode, final String countryCode);
+
+    Observable<FiveDayWeatherForecastDataEntity> fiveDayWeatherForecastEntityWithCityName(final String cityName, final String countryCode);
+
+    Observable<FiveDayWeatherForecastDataEntity> fiveDayWeatherForecastEntityWithZipCode(final String zipCode, final String countryCode);
 }

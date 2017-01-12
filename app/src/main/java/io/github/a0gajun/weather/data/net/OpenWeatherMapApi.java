@@ -49,11 +49,11 @@ public interface OpenWeatherMapApi {
     Observable<FiveDayWeatherForecastDataEntity> getFiveDayWeatherForecast(@Query("q") String cityNameCountryCode);
 
     /**
-     * Retrieve 5 day weather forecast using city ID.
+     * Retrieve 5 day weather data for one location using zip code.
      *
-     * @param cityId city ID
+     * @param zipCountryCode zip code and country code divided by comma
      * @return
      */
     @GET("data/2.5/forecast?units=metric")
-    Observable<FiveDayWeatherForecastDataEntity> getFiveDayWeatherForecastByCityID(@Query("id") int cityId);
+    Observable<FiveDayWeatherForecastDataEntity> getFiveDayWeatherForecastByZipCode(@Query("zip") String zipCountryCode);
 }

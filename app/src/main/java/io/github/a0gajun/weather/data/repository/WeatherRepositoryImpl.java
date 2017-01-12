@@ -6,17 +6,15 @@
 
 package io.github.a0gajun.weather.data.repository;
 
-import android.support.v4.util.Pair;
+import android.support.annotation.Nullable;
 
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
-import io.github.a0gajun.weather.data.entity.GoogleMapsGeocodingEntity;
 import io.github.a0gajun.weather.data.entity.mapper.CurrentWeatherMapper;
 import io.github.a0gajun.weather.data.entity.mapper.FiveDayForecastMapper;
-import io.github.a0gajun.weather.data.exception.ZipCodeNotResolvedException;
-import io.github.a0gajun.weather.data.repository.datasource.GeocodingDataStoreFactory;
 import io.github.a0gajun.weather.data.repository.datasource.WeatherDataStoreFactory;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
@@ -29,83 +27,68 @@ import rx.Observable;
 
 public class WeatherRepositoryImpl implements WeatherRepository {
 
+    private final static Pattern ZIP_CODE_PATTERN = Pattern.compile("\\d{3}-?\\d{4}");
+
     private final WeatherDataStoreFactory weatherDataStoreFactory;
-    private final GeocodingDataStoreFactory geocodingDataStoreFactory;
     private final CurrentWeatherMapper currentWeatherMapper;
     private final FiveDayForecastMapper fiveDayForecastMapper;
 
     @Inject
     WeatherRepositoryImpl(WeatherDataStoreFactory weatherDataStoreFactory,
-                          GeocodingDataStoreFactory geocodingDataStoreFactory,
                           CurrentWeatherMapper currentWeatherMapper,
                           FiveDayForecastMapper fiveDayForecastMapper) {
         this.weatherDataStoreFactory = weatherDataStoreFactory;
-        this.geocodingDataStoreFactory = geocodingDataStoreFactory;
         this.currentWeatherMapper = currentWeatherMapper;
         this.fiveDayForecastMapper = fiveDayForecastMapper;
     }
 
     @Override
     public Observable<CurrentWeather> currentWeather(String zipCode) {
-        return convertZipCodeToCityNameAndCountryCodeObservable(zipCode)
-                .flatMap(e ->
-                        this.weatherDataStoreFactory.create()
-                                .currentWeatherEntity(e.first, e.second)
-                                .map(this.currentWeatherMapper::transform)
-                );
+        final String formattedZipCode = formatZipCode(zipCode);
+
+        if (formattedZipCode == null) {
+            return Observable.error(new InvalidZipCodeFormatException(zipCode));
+        }
+
+        return this.weatherDataStoreFactory.create()
+                .currentWeatherEntityWithZipCode(formattedZipCode, "JP") // TODO: Remove hardcoded country code
+                .map(this.currentWeatherMapper::transform);
     }
 
     @Override
     public Observable<FiveDayForecast> fiveDayForecast(String zipCode) {
-        return convertZipCodeToCityNameAndCountryCodeObservable(zipCode)
-                .flatMap(e ->
-                        this.weatherDataStoreFactory.create()
-                                .fiveDayWeatherForecastEntity(e.first, e.second)
-                                .map(this.fiveDayForecastMapper::transform)
-                );
+        final String formattedZipCode = formatZipCode(zipCode);
+
+        if (formattedZipCode == null) {
+            return Observable.error(new InvalidZipCodeFormatException(zipCode));
+        }
+
+        return this.weatherDataStoreFactory.create()
+                .fiveDayWeatherForecastEntityWithZipCode(formattedZipCode, "JP") // TODO: Remove hardcoded country code
+                .map(this.fiveDayForecastMapper::transform);
     }
 
     /**
-     * Convert zip-code into City name and Country code using Google Maps geocoding api.
-     *
-     * @param zipCode target location's zipcode
-     * @return a pair of city name and country code.
+     * @param zipCode
+     * @return Formatted zip code (xxx-xxxx). If zip code is invalid, return null.
      */
-    private Observable<Pair<String, String>> convertZipCodeToCityNameAndCountryCodeObservable(final String zipCode) {
-        return this.geocodingDataStoreFactory.create()
-                .geocodingEntityOfZipCode(zipCode)
-                .map(this::extractCityNameCountryCode);
+    @Nullable
+    private String formatZipCode(final String zipCode) {
+        Matcher matcher = ZIP_CODE_PATTERN.matcher(zipCode);
+        if (!matcher.matches()) {
+            return null;
+        }
+
+        if (zipCode.length() == 8) { // Already formatted xxx-xxxx (8characters)
+            return zipCode;
+        }
+
+        return String.format("%s-%s", zipCode.substring(0, 2), zipCode.substring(3, 7));
     }
 
-    /**
-     * Extract city name and country code from {@link GoogleMapsGeocodingEntity}.
-     *
-     * @param entity {@link GoogleMapsGeocodingEntity}
-     * @return p pair of city name and country code
-     * @throws ZipCodeNotResolvedException this exception will be thrown if zip code isn't found.
-     */
-    private Pair<String, String> extractCityNameCountryCode(final GoogleMapsGeocodingEntity entity) throws ZipCodeNotResolvedException {
-        if (entity.getResults().size() != 1) {
-            throw new ZipCodeNotResolvedException();
+    public static class InvalidZipCodeFormatException extends RuntimeException {
+        public InvalidZipCodeFormatException(final String zipCode) {
+            super(String.format("Invalid zip code format : %s", zipCode));
         }
-        final GoogleMapsGeocodingEntity.Result result = entity.getResults().get(0);
-
-        String countryCode = "";
-        String cityName = "";
-        for (GoogleMapsGeocodingEntity.AddressComponent ac : result.getAddressComponents()) {
-            final List<String> types = ac.getTypes();
-            if (types.contains("country")) { // Country
-                countryCode = ac.getShortName();
-            }
-            if (types.contains("locality")) { // City
-                cityName = ac.getShortName();
-            }
-        }
-
-        if (countryCode.isEmpty() || cityName.isEmpty()) {
-            throw new ZipCodeNotResolvedException();
-        }
-
-        return new Pair<>(cityName, countryCode);
     }
 }
