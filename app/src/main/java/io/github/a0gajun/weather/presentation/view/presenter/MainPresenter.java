@@ -6,7 +6,14 @@
 
 package io.github.a0gajun.weather.presentation.view.presenter;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -93,7 +100,8 @@ public class MainPresenter implements Presenter {
         this.fiveDayForecastUseCase.execute(new FiveDayForecastSubscriber());
     }
 
-    public void loadCurrentLocation() {
+    public void loadCurrentLocation(Context context) {
+        final Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
         this.currentLocationUseCase.execute(new Subscriber<Location>() {
             @Override
             public void onCompleted() {
@@ -108,6 +116,15 @@ public class MainPresenter implements Presenter {
             @Override
             public void onNext(Location location) {
                 Timber.d(location.toString());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    if (!addresses.isEmpty()) {
+                        Timber.d("PostalCode: " + addresses.get(0).getPostalCode());
+                        Timber.d(addresses.get(0).getLocality() + ":" + addresses.get(0).getCountryName());
+                    }
+                } catch (IOException e) {
+                    Timber.e(e);
+                }
             }
         });
     }

@@ -156,7 +156,7 @@ public class MainFragment extends BaseFragment implements MainView, RequestPermi
     public void permissionAccepted(PermissionPresenter.PermissionCode permissionCode) {
         switch (permissionCode) {
             case LOCATION:
-                this.mainPresenter.loadCurrentLocation();
+                this.mainPresenter.loadCurrentLocation(context());
         }
     }
 
