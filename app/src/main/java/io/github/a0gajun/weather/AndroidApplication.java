@@ -30,9 +30,9 @@ public class AndroidApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        this.initializeTimber();
         initializeInjector();
         this.initializeLeakDetection();
-        this.initializeTimber();
         AndroidThreeTen.init(this);
     }
 
@@ -55,6 +55,7 @@ public class AndroidApplication extends Application {
             return;
         }
         if (BuildConfig.DEBUG) {
+            Timber.d("Leak canary is enabled!!!");
             LeakCanary.install(this);
         }
     }

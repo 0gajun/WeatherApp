@@ -8,15 +8,9 @@ package io.github.a0gajun.weather.presentation.view.presenter;
 
 import android.location.Location;
 
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import io.github.a0gajun.weather.data.entity.owm_common.Main;
-import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;
@@ -72,26 +66,6 @@ public class MainPresenter implements Presenter {
         this.currentLocationUseCase.unsubscribe();
     }
 
-    public void initialize() {
-        loadCurrentWeather();
-        loadEveryThreeHoursForecast();
-        this.currentLocationUseCase.execute(new Subscriber<Location>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Location location) {
-                Timber.d(location.toString());
-            }
-        });
-    }
 
     private void setCurrentWeather(CurrentWeather currentWeather) {
         this.currentWeather = currentWeather;
@@ -111,12 +85,31 @@ public class MainPresenter implements Presenter {
         }
     }
 
-    private void loadCurrentWeather() {
+    public void loadCurrentWeather() {
         this.currentWeatherUseCase.execute(new CurrentWeatherSubscriber());
     }
 
-    private void loadEveryThreeHoursForecast() {
+    public void loadEveryThreeHoursForecast() {
         this.fiveDayForecastUseCase.execute(new FiveDayForecastSubscriber());
+    }
+
+    public void loadCurrentLocation() {
+        this.currentLocationUseCase.execute(new Subscriber<Location>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Location location) {
+                Timber.d(location.toString());
+            }
+        });
     }
 
     private final class CurrentWeatherSubscriber extends DefaultSubscriber<CurrentWeather> {
@@ -146,6 +139,4 @@ public class MainPresenter implements Presenter {
             MainPresenter.this.render();
         }
     }
-
-
 }

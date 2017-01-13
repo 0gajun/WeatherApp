@@ -7,7 +7,6 @@
 package io.github.a0gajun.weather.data.entity.mapper.util;
 
 import org.junit.Test;
-import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;

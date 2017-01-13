@@ -58,6 +58,7 @@ ext {
     glideVersion = '3.7.0'
     glideTransformationVersion = '2.0.1'
     lightweightStreamApiVersion = '1.1.4'
+    apacheCommonsLangVersions = '3.5'
 
     // Develop
     timberVersion = '4.4.0'
@@ -109,6 +110,8 @@ dependencies {
     compile "jp.wasabeef:glide-transformations:${glideTransformationVersion}"
     // Lightweight Stream Api : Stream API backporting library
     compile "com.annimon:stream:${lightweightStreamApiVersion}"
+    // ApacheCommonsLang :
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: "${apacheCommonsLangVersions}"
 
     // LeakCanary : memory leak detection
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"

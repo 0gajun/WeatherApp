@@ -9,6 +9,7 @@ package io.github.a0gajun.weather.domain.repository;
 
 import android.location.Location;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 
 import rx.Observable;
 
@@ -18,6 +19,9 @@ import rx.Observable;
 
 public interface LocationRepository {
 
+    @RequiresPermission(
+        anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}
+    )
     Observable<Location> startLocationUpdates();
 
     void stopLocationUpdates();
