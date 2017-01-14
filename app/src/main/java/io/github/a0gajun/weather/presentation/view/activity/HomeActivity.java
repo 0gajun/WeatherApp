@@ -8,32 +8,35 @@ package io.github.a0gajun.weather.presentation.view.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import io.github.a0gajun.weather.R;
 import io.github.a0gajun.weather.databinding.ActivityHomeBinding;
-import io.github.a0gajun.weather.databinding.ActivityLayoutBinding;
 import io.github.a0gajun.weather.presentation.di.HasComponent;
 import io.github.a0gajun.weather.presentation.di.component.DaggerWeatherComponent;
 import io.github.a0gajun.weather.presentation.di.component.WeatherComponent;
 import io.github.a0gajun.weather.presentation.di.module.ActivityModule;
 import io.github.a0gajun.weather.presentation.di.module.WeatherModule;
-import io.github.a0gajun.weather.presentation.view.fragment.MainFragment;
+import io.github.a0gajun.weather.presentation.view.fragment.HomeFragment;
 
-public class MainActivity extends BaseActivity
-        implements HasComponent<WeatherComponent> {
+/**
+ * Created by Junya Ogasawara on 1/13/17.
+ */
 
-    private ActivityHomeBinding binding;
+public class HomeActivity extends BaseActivity implements HasComponent<WeatherComponent> {
 
     private WeatherComponent weatherComponent;
+    private ActivityHomeBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
         initializeInjector();
+
         if (savedInstanceState == null) {
-            addFragment(binding.fragmentContainer.getId(), new MainFragment());
+            addFragment(this.binding.fragmentContainer.getId(), new HomeFragment());
         }
     }
 

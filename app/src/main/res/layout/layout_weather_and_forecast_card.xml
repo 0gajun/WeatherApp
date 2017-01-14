@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_xsmall"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <ImageView
+                    android:id="@+id/weather_icon"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="@dimen/margin"
+                    android:tint="@android:color/darker_gray"
+                    tools:src="@drawable/ic_day_clear_sky"/>
+
+                <LinearLayout
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/weather"
+                    android:layout_marginTop="@dimen/margin"
+                    android:layout_toLeftOf="@id/temperature"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/location_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:maxLines="1"
+                        android:textSize="@dimen/text_size_large"
+                        tools:text="Kawasaki, Japan"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/weather_icon"
+                    android:layout_toRightOf="@id/weather_icon"
+                    android:textSize="@dimen/text_size_large"
+                    tools:text="Clear"/>
+
+                <TextView
+                    android:id="@+id/weather_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/weather"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_toLeftOf="@id/temperature"
+                    android:layout_toRightOf="@id/weather"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+
+                    tools:text="Clear sky"/>
+
+                <TextView
+                    android:id="@+id/temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin"
+                    android:textSize="@dimen/text_size_xlarge"
+                    tools:text="15°C"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin"
+                android:background="@drawable/bottom_border"
+                android:padding="@dimen/padding_small"
+                android:text="24 Hours Forecast"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:scrollbars="none"
+                    app:layoutManager="LinearLayoutManager"
+                    tools:listitem="@layout/layout_every_three_hours_forecast_col"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

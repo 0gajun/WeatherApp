@@ -14,9 +14,12 @@ import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
+import io.github.a0gajun.weather.domain.usecase.GetCurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
+
+import static io.github.a0gajun.weather.presentation.di.module.Qualifiers.GET_CURRENT_WEATHER_AND_FORECAST;
 
 /**
  * Dagger module that provides weather related collaborators.
@@ -47,5 +50,13 @@ public class WeatherModule {
     UseCase provideGetFiveDayForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
                                       PostExecutionThread postExecutionThread) {
         return new GetFiveDayForecast(this.zipCode, weatherRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named(GET_CURRENT_WEATHER_AND_FORECAST)
+    GetCurrentWeatherAndForecast provideGetCurrentWeatherAndForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
+                                                PostExecutionThread postExecutionThread) {
+        return new GetCurrentWeatherAndForecast(threadExecutor, postExecutionThread, weatherRepository);
     }
 }
