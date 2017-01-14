@@ -8,9 +8,11 @@ package io.github.a0gajun.weather;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 
+import io.github.a0gajun.weather.data.entity.OrmaDatabase;
 import io.github.a0gajun.weather.presentation.di.component.ApplicationComponent;
 import io.github.a0gajun.weather.presentation.di.component.DaggerApplicationComponent;
 import io.github.a0gajun.weather.presentation.di.module.ApplicationModule;
@@ -33,6 +35,7 @@ public class AndroidApplication extends Application {
         this.initializeTimber();
         initializeInjector();
         this.initializeLeakDetection();
+        Stetho.initializeWithDefaults(this);
         AndroidThreeTen.init(this);
     }
 
