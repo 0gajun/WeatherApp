@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter
  */
 
 public class HomeFragment extends BaseFragment implements HomeView,
-        LoadingView, RequestPermissionView {
+        LoadingView, RequestPermissionView, SwipeRefreshLayout.OnRefreshListener {
 
     @Inject HomePresenter homePresenter;
     @Inject PermissionPresenter permissionPresenter;
@@ -66,8 +67,9 @@ public class HomeFragment extends BaseFragment implements HomeView,
         this.binding = FragmentHomeBinding.bind(getView());
 
         setUpRecyclerView();
+        setUpSwipeRefreshLayout();
 
-        this.homePresenter.setView(this, this);
+        this.homePresenter.setView(this);
         this.permissionPresenter.setView(this);
 
         if (savedInstanceState == null) {
@@ -91,6 +93,7 @@ public class HomeFragment extends BaseFragment implements HomeView,
     @Override
     public void renderWeathers(Collection<CurrentWeatherAndForecast> currentWeatherAndForecast) {
         this.homeWeathersAdapter.setCurrentWeatherAndForecasts(currentWeatherAndForecast);
+        hideLoading();
     }
 
     @Override
@@ -100,12 +103,12 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
     @Override
     public void showLoading() {
-
+        this.binding.swipeRefresh.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        this.binding.swipeRefresh.setRefreshing(false);
     }
 
     @Override
@@ -146,6 +149,11 @@ public class HomeFragment extends BaseFragment implements HomeView,
                 .show();
     }
 
+    @Override
+    public void onRefresh() {
+        this.homePresenter.reload();
+    }
+
     @Subscribe
     public void onRequestPermissionsResultEvent(final BaseActivity.OnRequestPermissionResultEvent event) {
         if (PermissionPresenter.PermissionCode.isHandledRequestCode(event.requestCode)) {
@@ -156,5 +164,9 @@ public class HomeFragment extends BaseFragment implements HomeView,
     private void setUpRecyclerView() {
         this.binding.rvWeathers.setLayoutManager(new LinearLayoutManager(getContext()));
         this.binding.rvWeathers.setAdapter(this.homeWeathersAdapter);
+    }
+
+    private void setUpSwipeRefreshLayout() {
+        this.binding.swipeRefresh.setOnRefreshListener(this);
     }
 }

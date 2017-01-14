@@ -49,9 +49,9 @@ public class HomePresenter implements Presenter {
         this.getCurrentLocationWeatherAndForecast = getCurrentLocationWeatherAndForecast;
     }
 
-    public void setView(HomeView homeView, LoadingView loadingView) {
-        this.homeView = homeView;
-        this.loadingView = loadingView;
+    public <T extends HomeView & LoadingView> void setView(T view) {
+        this.homeView = view;
+        this.loadingView = view;
     }
 
     @Override
@@ -97,6 +97,11 @@ public class HomePresenter implements Presenter {
      */
     public void loadCurrentLocationWeatherWithProperPermission() {
         this.getCurrentLocationWeatherAndForecast.execute(new LoadWeatherSubscriber(CURRENT_LOCATION_FAKE_ZIP_CODE));
+    }
+
+    public void reload() {
+        loadRegisteredWeathers();
+        loadCurrentLocationWeather();
     }
 
     private void initializeState() {
