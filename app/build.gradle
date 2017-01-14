@@ -58,6 +58,7 @@ ext {
     glideTransformationVersion = '2.0.1'
     lightweightStreamApiVersion = '1.1.4'
     apacheCommonsLangVersions = '3.5'
+    ormaVersion = '3.2.2' // Using old version to use rxJava 1.x
 
     // Develop
     timberVersion = '4.4.0'
@@ -112,6 +113,9 @@ dependencies {
     compile "com.annimon:stream:${lightweightStreamApiVersion}"
     // ApacheCommonsLang :
     compile group: 'org.apache.commons', name: 'commons-lang3', version: "${apacheCommonsLangVersions}"
+    // Orma : ORM
+    annotationProcessor "com.github.gfx.android.orma:orma-processor:${ormaVersion}"
+    compile "com.github.gfx.android.orma:orma:${ormaVersion}"
 
     // LeakCanary : memory leak detection
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
