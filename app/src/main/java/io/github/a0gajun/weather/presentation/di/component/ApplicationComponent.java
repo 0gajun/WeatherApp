@@ -12,12 +12,15 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import io.github.a0gajun.weather.data.entity.OrmaDatabase;
 import io.github.a0gajun.weather.data.net.OpenWeatherMapApi;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
 import io.github.a0gajun.weather.domain.repository.LocationRepository;
+import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.presentation.di.module.ApplicationModule;
+import io.github.a0gajun.weather.presentation.di.module.DBModule;
 import io.github.a0gajun.weather.presentation.di.module.NetModule;
 import io.github.a0gajun.weather.presentation.di.module.RepositoryModule;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
@@ -27,7 +30,7 @@ import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
  */
 
 @Singleton
-@Component(modules = {ApplicationModule.class, NetModule.class, RepositoryModule.class})
+@Component(modules = {ApplicationModule.class, NetModule.class, RepositoryModule.class, DBModule.class})
 public interface ApplicationComponent {
     void inject(BaseActivity baseActivity);
 
@@ -49,4 +52,9 @@ public interface ApplicationComponent {
     WeatherRepository weatherRepository();
 
     LocationRepository locationRepository();
+
+    WatchingLocationRepository watchingLocationRepository();
+
+    // DBModule
+    OrmaDatabase ormaDatabase();
 }

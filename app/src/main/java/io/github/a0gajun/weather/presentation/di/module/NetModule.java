@@ -8,6 +8,7 @@ package io.github.a0gajun.weather.presentation.di.module;
 
 import android.app.Application;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -70,6 +71,7 @@ public class NetModule {
                     request = request.newBuilder().url(url).build();
                     return chain.proceed(request);
                 })
+                .addNetworkInterceptor(new StethoInterceptor())
                 //.addInterceptor(loggingInterceptor)
                 .cache(cache)
                 .build();

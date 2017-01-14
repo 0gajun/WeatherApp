@@ -18,4 +18,6 @@ public class Qualifiers {
     public static final String CURRENT_LOCATION_WEATHER_FORECAST = "current_location_weather_forecast";
 
     public static final String REGISTERED_LOCATION_WEATHER_FORECAST = "registered_location_weather_forecast";
+
+    public static final String REGISTER_WATCHING_LOCATION = "register_watching_location";
 }

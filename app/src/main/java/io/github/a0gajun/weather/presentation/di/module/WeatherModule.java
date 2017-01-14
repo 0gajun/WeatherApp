@@ -15,11 +15,13 @@ import dagger.Provides;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
 import io.github.a0gajun.weather.domain.repository.LocationRepository;
+import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
 import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.GetRegisteredLocationWeatherAndForecast;
+import io.github.a0gajun.weather.domain.usecase.RegisterWatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
 
@@ -75,5 +77,13 @@ public class WeatherModule {
                                                            ThreadExecutor threadExecutor,
                                                            PostExecutionThread postExecutionThread) {
         return new GetRegisteredLocationWeatherAndForecast(context, weatherRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    @Named(Qualifiers.REGISTER_WATCHING_LOCATION)
+    RegisterWatchingLocation provideRegisterWatchingLocation(WatchingLocationRepository watchingLocationRepository,
+                                                             ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+        return new RegisterWatchingLocation(watchingLocationRepository, threadExecutor, postExecutionThread);
     }
 }

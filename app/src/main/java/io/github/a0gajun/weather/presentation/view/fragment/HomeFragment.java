@@ -68,6 +68,7 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
         setUpRecyclerView();
         setUpSwipeRefreshLayout();
+        setUpFAB();
 
         this.homePresenter.setView(this);
         this.permissionPresenter.setView(this);
@@ -168,5 +169,9 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
     private void setUpSwipeRefreshLayout() {
         this.binding.swipeRefresh.setOnRefreshListener(this);
+    }
+
+    private void setUpFAB() {
+        this.binding.fab.setOnClickListener(v -> Snackbar.make(getView(), "Hogeohge", Snackbar.LENGTH_LONG).show());
     }
 }

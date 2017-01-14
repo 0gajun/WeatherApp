@@ -13,7 +13,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
+import io.github.a0gajun.weather.domain.model.WatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;
+import io.github.a0gajun.weather.domain.usecase.RegisterWatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.module.Qualifiers;
 import io.github.a0gajun.weather.presentation.view.HomeView;
@@ -28,6 +30,7 @@ public class HomePresenter implements Presenter {
 
     private final UseCase getCurrentLocationWeatherAndForecast;
     private final UseCase getRegisteredLocationWeatherAndForecast;
+    private final RegisterWatchingLocation registerWatchingLocation;
 
     private HomeView homeView;
     private LoadingView loadingView;
@@ -36,9 +39,11 @@ public class HomePresenter implements Presenter {
 
     @Inject
     public HomePresenter(@Named(Qualifiers.CURRENT_LOCATION_WEATHER_FORECAST) UseCase getCurrentLocationWeatherAndForecast,
-                         @Named(Qualifiers.REGISTERED_LOCATION_WEATHER_FORECAST) UseCase getRegisteredLocationWeatherAndForecast) {
+                         @Named(Qualifiers.REGISTERED_LOCATION_WEATHER_FORECAST) UseCase getRegisteredLocationWeatherAndForecast,
+                         @Named(Qualifiers.REGISTER_WATCHING_LOCATION) RegisterWatchingLocation registerWatchingLocation) {
         this.getCurrentLocationWeatherAndForecast = getCurrentLocationWeatherAndForecast;
         this.getRegisteredLocationWeatherAndForecast = getRegisteredLocationWeatherAndForecast;
+        this.registerWatchingLocation = registerWatchingLocation;
     }
 
     public <T extends HomeView & LoadingView> void setView(T view) {
@@ -76,6 +81,14 @@ public class HomePresenter implements Presenter {
         }
 
         return newList;
+    }
+
+    public void registerWatchingLocation(final String zipCode) {
+        WatchingLocation watchingLocation = new WatchingLocation();
+        watchingLocation.setPriority(0);
+        watchingLocation.setZipCode(zipCode);
+        this.registerWatchingLocation.setWatchingLocation(watchingLocation);
+        this.registerWatchingLocation.execute(new RegisterWatchingLocationSubscriber());
     }
 
     public void loadRegisteredWeathers() {
@@ -138,6 +151,23 @@ public class HomePresenter implements Presenter {
         public void onNext(CurrentWeatherAndForecast currentWeatherAndForecast) {
             HomePresenter.this.updateCurrentLocationWeather(currentWeatherAndForecast);
             HomePresenter.this.render();
+        }
+    }
+
+    private class RegisterWatchingLocationSubscriber extends DefaultSubscriber<WatchingLocation> {
+        @Override
+        public void onCompleted() {
+            super.onCompleted();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+        }
+
+        @Override
+        public void onNext(WatchingLocation watchingLocation) {
+            super.onNext(watchingLocation);
         }
     }
 }
