@@ -70,7 +70,7 @@ public class NetModule {
                     request = request.newBuilder().url(url).build();
                     return chain.proceed(request);
                 })
-                .addInterceptor(loggingInterceptor)
+                //.addInterceptor(loggingInterceptor)
                 .cache(cache)
                 .build();
     }

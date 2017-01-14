@@ -16,4 +16,6 @@ import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 
 public interface HomeView {
     void renderWeathers(Collection<CurrentWeatherAndForecast> currentWeatherAndForecast);
+
+    void requireLocationPermission();
 }

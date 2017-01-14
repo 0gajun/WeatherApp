@@ -67,6 +67,6 @@ public class MapperUtil {
 
     public static String convertCountryCodeToCountryName(final String countryCode) {
         Locale locale = new Locale("", countryCode);
-        return locale.getDisplayCountry();
+        return locale.getDisplayCountry(Locale.ENGLISH); // TODO: support multilanguage
     }
 }

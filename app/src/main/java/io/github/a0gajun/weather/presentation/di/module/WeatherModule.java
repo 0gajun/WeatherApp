@@ -6,13 +6,17 @@
 
 package io.github.a0gajun.weather.presentation.di.module;
 
+import android.content.Context;
+
 import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
+import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
+import io.github.a0gajun.weather.domain.usecase.GetCurrentLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
@@ -58,5 +62,17 @@ public class WeatherModule {
     GetCurrentWeatherAndForecast provideGetCurrentWeatherAndForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
                                                 PostExecutionThread postExecutionThread) {
         return new GetCurrentWeatherAndForecast(threadExecutor, postExecutionThread, weatherRepository);
+    }
+
+    @Provides
+    @PerActivity
+    GetCurrentLocationWeatherAndForecast provideGetCurrentLocationWeatherAndForecast(Context context,
+                                                                                     WeatherRepository weatherRepository,
+                                                                                     LocationRepository locationRepository,
+                                                                                     ThreadExecutor threadExecutor,
+                                                                                     PostExecutionThread postExecutionThread) {
+        return new GetCurrentLocationWeatherAndForecast(context,
+                threadExecutor, postExecutionThread,
+                locationRepository, weatherRepository);
     }
 }

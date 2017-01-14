@@ -9,6 +9,7 @@ package io.github.a0gajun.weather.presentation.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,6 @@ import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
 import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
 import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter;
-import timber.log.Timber;
 
 /**
  * Created by Junya Ogasawara on 1/14/17.
@@ -71,7 +71,8 @@ public class HomeFragment extends BaseFragment implements HomeView,
         this.permissionPresenter.setView(this);
 
         if (savedInstanceState == null) {
-            this.homePresenter.loadWeathers();
+            this.homePresenter.loadCurrentLocationWeather();
+            this.homePresenter.loadRegisteredWeathers();
         }
     }
 
@@ -89,8 +90,12 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
     @Override
     public void renderWeathers(Collection<CurrentWeatherAndForecast> currentWeatherAndForecast) {
-        Timber.d("renderWeathers");
         this.homeWeathersAdapter.setCurrentWeatherAndForecasts(currentWeatherAndForecast);
+    }
+
+    @Override
+    public void requireLocationPermission() {
+        this.permissionPresenter.requestLocationPermission(getActivity());
     }
 
     @Override
@@ -115,22 +120,30 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
     @Override
     public void requestPermission(String permission, PermissionPresenter.PermissionCode permissionCode) {
-
+        // no-op
     }
 
     @Override
     public void permissionAccepted(PermissionPresenter.PermissionCode permissionCode) {
-
+        switch (permissionCode) {
+            case LOCATION:
+                this.homePresenter.loadCurrentLocationWeatherWithProperPermission();
+                break;
+        }
     }
 
     @Override
     public void permissionDenied(PermissionPresenter.PermissionCode permissionCode) {
-
+        showSnackBar(getString(R.string.msg_permission_required_for_current_location_weather));
     }
 
     @Override
     public void showRationale(PermissionPresenter.PermissionCode permissionCode) {
-
+        Snackbar.make(getView(), R.string.msg_permission_required_for_current_location_weather, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.label_permit, v -> {
+                    this.permissionPresenter.requestLocationPermissionWithoutRationale(getActivity());
+                })
+                .show();
     }
 
     @Subscribe

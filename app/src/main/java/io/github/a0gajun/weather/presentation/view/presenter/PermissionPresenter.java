@@ -64,7 +64,24 @@ public class PermissionPresenter implements Presenter {
         requestPermission(activity, PermissionCode.LOCATION);
     }
 
+    /**
+     * Request location permission without showing rationale.
+     *
+     * @param activity
+     */
     public void requestLocationPermissionForcefully(Activity activity) {
+        Timber.d("Request Location Permission forcefully");
+        ActivityCompat.requestPermissions(activity,
+                new String[]{PermissionCode.LOCATION.getPermission()},
+                PermissionCode.LOCATION.getRequestCode());
+    }
+
+    /**
+     * Request location permission without showing rationale.
+     *
+     * @param activity
+     */
+    public void requestLocationPermissionWithoutRationale(Activity activity) {
         Timber.d("Request Location Permission forcefully");
         ActivityCompat.requestPermissions(activity,
                 new String[]{PermissionCode.LOCATION.getPermission()},

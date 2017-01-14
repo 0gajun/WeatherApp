@@ -22,8 +22,8 @@ import rx.subscriptions.Subscriptions;
 
 public abstract class UseCase {
 
-    private final ThreadExecutor threadExecutor;
-    private final PostExecutionThread postExecutionThread;
+    protected final ThreadExecutor threadExecutor;
+    protected final PostExecutionThread postExecutionThread;
 
     private Subscription subscription = Subscriptions.empty();
 
