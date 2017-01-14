@@ -18,6 +18,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin"
                 android:layout_height="80dp">
 
                 <ImageView

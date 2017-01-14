@@ -66,6 +66,7 @@ public class GetCurrentLocationWeatherAndForecast extends UseCase {
                 .map(currentWeatherAndForecast -> {
                     Timber.d(currentWeatherAndForecast.toString());
                     currentWeatherAndForecast.getCurrentWeather().setWeather("Current");
+                    currentWeatherAndForecast.setCurrentLocation(true);
                     return currentWeatherAndForecast;
                 });
     }

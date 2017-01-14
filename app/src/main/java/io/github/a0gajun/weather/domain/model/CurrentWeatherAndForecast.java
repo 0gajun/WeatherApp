@@ -7,6 +7,7 @@
 package io.github.a0gajun.weather.domain.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by Junya Ogasawara on 1/14/17.
@@ -15,6 +16,8 @@ import lombok.Getter;
 public class CurrentWeatherAndForecast {
     @Getter private final CurrentWeather currentWeather;
     @Getter private final FiveDayForecast fiveDayForecast;
+
+    @Getter @Setter private boolean isCurrentLocation;
 
     public CurrentWeatherAndForecast(CurrentWeather currentWeather, FiveDayForecast fiveDayForecast) {
         this.currentWeather = currentWeather;
