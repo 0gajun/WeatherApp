@@ -18,12 +18,10 @@ import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
-import io.github.a0gajun.weather.domain.usecase.GetCurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
+import io.github.a0gajun.weather.domain.usecase.GetRegisteredLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
-
-import static io.github.a0gajun.weather.presentation.di.module.Qualifiers.GET_CURRENT_WEATHER_AND_FORECAST;
 
 /**
  * Dagger module that provides weather related collaborators.
@@ -58,21 +56,24 @@ public class WeatherModule {
 
     @Provides
     @PerActivity
-    @Named(GET_CURRENT_WEATHER_AND_FORECAST)
-    GetCurrentWeatherAndForecast provideGetCurrentWeatherAndForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
-                                                PostExecutionThread postExecutionThread) {
-        return new GetCurrentWeatherAndForecast(threadExecutor, postExecutionThread, weatherRepository);
+    @Named(Qualifiers.CURRENT_LOCATION_WEATHER_FORECAST)
+    UseCase provideGetCurrentLocationWeatherAndForecast(Context context,
+                                                        WeatherRepository weatherRepository,
+                                                        LocationRepository locationRepository,
+                                                        ThreadExecutor threadExecutor,
+                                                        PostExecutionThread postExecutionThread) {
+        return new GetCurrentLocationWeatherAndForecast(context,
+                threadExecutor, postExecutionThread,
+                locationRepository, weatherRepository);
     }
 
     @Provides
     @PerActivity
-    GetCurrentLocationWeatherAndForecast provideGetCurrentLocationWeatherAndForecast(Context context,
-                                                                                     WeatherRepository weatherRepository,
-                                                                                     LocationRepository locationRepository,
-                                                                                     ThreadExecutor threadExecutor,
-                                                                                     PostExecutionThread postExecutionThread) {
-        return new GetCurrentLocationWeatherAndForecast(context,
-                threadExecutor, postExecutionThread,
-                locationRepository, weatherRepository);
+    @Named(Qualifiers.REGISTERED_LOCATION_WEATHER_FORECAST)
+    UseCase provideGetRegisteredLocationWeatherAndForecast(Context context,
+                                                           WeatherRepository weatherRepository,
+                                                           ThreadExecutor threadExecutor,
+                                                           PostExecutionThread postExecutionThread) {
+        return new GetRegisteredLocationWeatherAndForecast(context, weatherRepository, threadExecutor, postExecutionThread);
     }
 }

@@ -15,5 +15,7 @@ public class Qualifiers {
 
     public static final String GOOGLE_MAPS_API = "google_maps_api";
 
-    public static final String GET_CURRENT_WEATHER_AND_FORECAST = "get_current_weather_and_forecast";
+    public static final String CURRENT_LOCATION_WEATHER_FORECAST = "current_location_weather_forecast";
+
+    public static final String REGISTERED_LOCATION_WEATHER_FORECAST = "registered_location_weather_forecast";
 }
