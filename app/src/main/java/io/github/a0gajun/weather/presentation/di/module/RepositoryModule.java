@@ -10,9 +10,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.github.a0gajun.weather.data.repository.GeocodingRepositoryImpl;
 import io.github.a0gajun.weather.data.repository.LocationRepositoryImpl;
 import io.github.a0gajun.weather.data.repository.WatchingLocationRepositoryImpl;
 import io.github.a0gajun.weather.data.repository.WeatherRepositoryImpl;
+import io.github.a0gajun.weather.domain.repository.GeocodingRepository;
 import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
@@ -40,5 +42,11 @@ public class RepositoryModule {
     @Singleton
     WatchingLocationRepository provideRegisteredZipCodeRepository(WatchingLocationRepositoryImpl watchingLocationRepositoryImpl) {
         return watchingLocationRepositoryImpl;
+    }
+
+    @Provides
+    @Singleton
+    GeocodingRepository provideGeocodingRepository(GeocodingRepositoryImpl geocodingRepositoryImpl) {
+        return geocodingRepositoryImpl;
     }
 }

@@ -6,9 +6,6 @@
 
 package io.github.a0gajun.weather.data.repository;
 
-import android.support.annotation.Nullable;
-
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -19,6 +16,7 @@ import io.github.a0gajun.weather.data.repository.datasource.WeatherDataStoreFact
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
+import io.github.a0gajun.weather.domain.util.ZipCodeUtil;
 import rx.Observable;
 
 /**
@@ -44,10 +42,11 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
     @Override
     public Observable<CurrentWeather> currentWeather(String zipCode) {
-        final String formattedZipCode = formatZipCode(zipCode);
-
-        if (formattedZipCode == null) {
-            return Observable.error(new InvalidZipCodeFormatException(zipCode));
+        String formattedZipCode;
+        try {
+            formattedZipCode = ZipCodeUtil.formatZipCode(zipCode);
+        } catch (ZipCodeUtil.InvalidZipCodeFormatException e) {
+            return Observable.error(e);
         }
 
         return this.weatherDataStoreFactory.create()
@@ -57,38 +56,15 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
     @Override
     public Observable<FiveDayForecast> fiveDayForecast(String zipCode) {
-        final String formattedZipCode = formatZipCode(zipCode);
-
-        if (formattedZipCode == null) {
-            return Observable.error(new InvalidZipCodeFormatException(zipCode));
+        String formattedZipCode;
+        try {
+            formattedZipCode = ZipCodeUtil.formatZipCode(zipCode);
+        } catch (ZipCodeUtil.InvalidZipCodeFormatException e) {
+            return Observable.error(e);
         }
 
         return this.weatherDataStoreFactory.create()
                 .fiveDayWeatherForecastEntityWithZipCode(formattedZipCode, "JP") // TODO: Remove hardcoded country code
                 .map(this.fiveDayForecastMapper::transform);
-    }
-
-    /**
-     * @param zipCode
-     * @return Formatted zip code (xxx-xxxx). If zip code is invalid, return null.
-     */
-    @Nullable
-    private String formatZipCode(final String zipCode) {
-        Matcher matcher = ZIP_CODE_PATTERN.matcher(zipCode);
-        if (!matcher.matches()) {
-            return null;
-        }
-
-        if (zipCode.length() == 8) { // Already formatted xxx-xxxx (8characters)
-            return zipCode;
-        }
-
-        return String.format("%s-%s", zipCode.substring(0, 2), zipCode.substring(3, 7));
-    }
-
-    public static class InvalidZipCodeFormatException extends RuntimeException {
-        public InvalidZipCodeFormatException(final String zipCode) {
-            super(String.format("Invalid zip code format : %s", zipCode));
-        }
     }
 }

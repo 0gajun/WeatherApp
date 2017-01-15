@@ -6,6 +6,8 @@
 
 package io.github.a0gajun.weather.presentation.di.module;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import io.github.a0gajun.weather.domain.repository.LocationRepository;

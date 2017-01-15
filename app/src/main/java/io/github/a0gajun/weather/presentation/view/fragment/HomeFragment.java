@@ -31,6 +31,7 @@ import io.github.a0gajun.weather.presentation.view.HomeView;
 import io.github.a0gajun.weather.presentation.view.LoadingView;
 import io.github.a0gajun.weather.presentation.view.RequestPermissionView;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
+import io.github.a0gajun.weather.presentation.view.activity.WatchingLocationRegistrationActivity;
 import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
 import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter;
@@ -47,11 +48,6 @@ public class HomeFragment extends BaseFragment implements HomeView,
     @Inject HomeWeathersAdapter homeWeathersAdapter;
     private FragmentHomeBinding binding;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
 
     @Nullable
     @Override
@@ -80,9 +76,23 @@ public class HomeFragment extends BaseFragment implements HomeView,
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        this.binding.rvWeathers.setAdapter(null);
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.permissionPresenter.resume();
+        this.homePresenter.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.permissionPresenter.pause();
+        this.homePresenter.pause();
     }
 
     @Override
@@ -90,6 +100,20 @@ public class HomeFragment extends BaseFragment implements HomeView,
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.homePresenter.destroy();
+        this.permissionPresenter.destroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.binding.rvWeathers.setAdapter(null);
+    }
+
 
     @Override
     public void renderWeathers(Collection<CurrentWeatherAndForecast> currentWeatherAndForecast) {
@@ -172,6 +196,8 @@ public class HomeFragment extends BaseFragment implements HomeView,
     }
 
     private void setUpFAB() {
-        this.binding.fab.setOnClickListener(v -> Snackbar.make(getView(), "Hogeohge", Snackbar.LENGTH_LONG).show());
+        this.binding.fab.setOnClickListener(v -> {
+            EventBus.getDefault().post(new BaseActivity.NavigationEvent(WatchingLocationRegistrationActivity.getCallingIntent(getContext())));
+        });
     }
 }

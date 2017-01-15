@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="holo_red_light">@android:color/holo_red_light</color>
+
 
     <color name="thinColorText">#7a3c4a60</color>
     <color name="defaultColorText">#3c4a60</color>

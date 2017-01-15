@@ -32,14 +32,17 @@ public class WatchingLocationRepositoryImpl implements WatchingLocationRepositor
     }
 
     @Override
-    public Observable<WatchingLocation> registerOrUpdateWatchingLocation(WatchingLocation watchingLocation) {
+    public Observable<WatchingLocation> registerOrUpdateWatchingLocation(final WatchingLocation watchingLocation) {
          WatchingLocationEntity entity = this.watchingLocationMapper.transform(watchingLocation);
 
         if (entity == null) {
             return Observable.error(new RuntimeException("")); // TODO: Throw proper exception
         }
 
-        return Observable.create(subscriber -> this.ormaDatabase.insertIntoWatchingLocationEntity(entity));
+        return Observable.create(subscriber -> {
+            this.ormaDatabase.insertIntoWatchingLocationEntity(entity);
+            subscriber.onNext(watchingLocation);
+        });
     }
 
     @Override

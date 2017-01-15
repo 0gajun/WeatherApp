@@ -11,4 +11,7 @@ package io.github.a0gajun.weather.data.exception;
  */
 
 public class ZipCodeNotResolvedException extends RuntimeException {
+    public ZipCodeNotResolvedException(String message) {
+        super(message);
+    }
 }

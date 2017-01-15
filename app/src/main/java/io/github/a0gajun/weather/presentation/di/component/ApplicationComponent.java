@@ -16,6 +16,7 @@ import io.github.a0gajun.weather.data.entity.OrmaDatabase;
 import io.github.a0gajun.weather.data.net.OpenWeatherMapApi;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
+import io.github.a0gajun.weather.domain.repository.GeocodingRepository;
 import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
@@ -54,6 +55,8 @@ public interface ApplicationComponent {
     LocationRepository locationRepository();
 
     WatchingLocationRepository watchingLocationRepository();
+
+    GeocodingRepository geocodingRepository();
 
     // DBModule
     OrmaDatabase ormaDatabase();

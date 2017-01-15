@@ -14,6 +14,8 @@ import lombok.Setter;
  */
 
 public class WatchingLocation {
+    public static final int DEFAULT_PRIORITY = 0;
+
     @Getter @Setter private String zipCode;
 
     @Getter @Setter private int priority;

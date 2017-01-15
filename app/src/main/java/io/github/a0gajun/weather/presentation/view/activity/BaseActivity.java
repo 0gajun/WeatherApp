@@ -6,12 +6,15 @@
 
 package io.github.a0gajun.weather.presentation.view.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Arrays;
 
@@ -23,6 +26,18 @@ import io.github.a0gajun.weather.presentation.di.component.ApplicationComponent;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
     protected void addFragment(final int containerViewId, Fragment fragment) {
         FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
@@ -39,6 +54,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         EventBus.getDefault().post(new OnRequestPermissionResultEvent(requestCode, permissions, grantResults));
     }
 
+    @Subscribe
+    public void onNavigationEvent(NavigationEvent navigationEvent) {
+        if (navigationEvent.needsResult) {
+            startActivityForResult(navigationEvent.intent, navigationEvent.requestCode);
+        } else {
+            startActivity(navigationEvent.intent);
+        }
+    }
+
+    @Subscribe
+    public void onFinishActivityEvent(FinishActivityEvent finishActivityEvent) {
+        finish();
+    }
+
     public static class OnRequestPermissionResultEvent {
         public final int requestCode;
         public final String[] permissions;
@@ -49,5 +78,28 @@ public abstract class BaseActivity extends AppCompatActivity {
             this.permissions = Arrays.copyOf(permissions, permissions.length);
             this.grantResults = Arrays.copyOf(grantResults, grantResults.length);
         }
+    }
+
+    public static class NavigationEvent {
+        final Intent intent;
+        final boolean needsResult;
+        final int requestCode;
+
+        public NavigationEvent(Intent intent) {
+            this(intent, false, 0);
+        }
+
+        public NavigationEvent(Intent intent, int requestCode) {
+            this(intent, true, requestCode);
+        }
+
+        private NavigationEvent(Intent intent, boolean needsResult, int requestCode) {
+            this.intent = intent;
+            this.needsResult = needsResult;
+            this.requestCode = requestCode;
+        }
+    }
+
+    public static class FinishActivityEvent {
     }
 }
