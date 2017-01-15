@@ -36,6 +36,7 @@ import io.github.a0gajun.weather.presentation.view.LoadingView;
 import io.github.a0gajun.weather.presentation.view.RequestPermissionView;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
 import io.github.a0gajun.weather.presentation.view.activity.WatchingLocationRegistrationActivity;
+import io.github.a0gajun.weather.presentation.view.activity.WeatherDetailActivity;
 import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
 import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter;
@@ -198,7 +199,7 @@ public class HomeFragment extends BaseFragment implements HomeView,
                 = this.homeWeathersAdapter.deleteItem(event.deletedItemsAdapterPosition);
         final String zipCode = currentWeatherAndForecast.getZipCode();
 
-        // TODO: Refactor
+        // TODO: Refactor, where should i put?
         Snackbar.make(getView(), "Unregistered", Snackbar.LENGTH_LONG)
                 .setAction("UNDO", v -> this.homePresenter.reload())
                 .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
@@ -213,6 +214,11 @@ public class HomeFragment extends BaseFragment implements HomeView,
                     }
                 })
                 .show();
+    }
+
+    @Subscribe
+    public void onViewDetailWeatherEvent(HomeWeathersAdapter.ViewDetailWeatherEvent event) {
+        startActivity(WeatherDetailActivity.getCallingIntent(getContext(), event.zipCode));
     }
 
     @Override

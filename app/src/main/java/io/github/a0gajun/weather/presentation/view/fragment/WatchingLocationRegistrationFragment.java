@@ -90,10 +90,11 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
     }
 
     private void setUpToolbar() {
-        binding.toolbar.inflateMenu(R.menu.menu_search);
-        binding.toolbar.setNavigationOnClickListener(v -> EventBus.getDefault().post(new BaseActivity.FinishActivityEvent()));
+        this.binding.toolbarBinding.toolbar.inflateMenu(R.menu.menu_search);
+        this.binding.toolbarBinding.toolbar.setNavigationIcon(R.drawable.ic_navigate_before_white_24dp);
+        this.binding.toolbarBinding.toolbar.setNavigationOnClickListener(v -> EventBus.getDefault().post(new BaseActivity.FinishActivityEvent()));
 
-        MenuItem menuItem = binding.toolbar.getMenu().findItem(R.id.search_view);
+        MenuItem menuItem = binding.toolbarBinding.toolbar.getMenu().findItem(R.id.search_view);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search with location name");
         searchView.setIconifiedByDefault(false);
@@ -165,6 +166,7 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
 
     @Override
     public void showLocationInfo(String zipCode, String location) {
+        this.binding.resolvedLocationLabel.setVisibility(View.VISIBLE);
         this.binding.postalCode.setVisibility(View.VISIBLE);
         this.binding.address.setVisibility(View.VISIBLE);
         this.binding.msgLocationCard.setVisibility(View.GONE);
@@ -184,6 +186,7 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
     }
 
     private void showMsgInLocationCard(@StringRes int resId, @ColorRes int colorResId) {
+        this.binding.resolvedLocationLabel.setVisibility(View.GONE);
         this.binding.postalCode.setVisibility(View.GONE);
         this.binding.address.setVisibility(View.GONE);
         this.binding.msgLocationCard.setVisibility(View.VISIBLE);

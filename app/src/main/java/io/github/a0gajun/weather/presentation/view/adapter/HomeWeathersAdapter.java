@@ -11,8 +11,6 @@ import android.app.Service;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.provider.ContactsContract;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -136,13 +134,8 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
         setUpRecyclerView(binding, context, forecast);
 
         bindingHolder.itemView.setOnClickListener(v -> {
-            Timber.d("Clicked! : " + data.getCurrentWeather().getCityName());
-        });
-
-        bindingHolder.itemView.setLongClickable(true);
-        bindingHolder.itemView.setOnLongClickListener(v -> {
-            Timber.d("LongClicked! : " + data.getCurrentWeather().getCityName());
-            return false;
+            Timber.d("Onclicked!");
+            EventBus.getDefault().post(new ViewDetailWeatherEvent(data.getZipCode()));
         });
     }
 
@@ -162,7 +155,6 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
     }
 
     /**
-     *
      * @param position
      * @return Deleted data
      */
@@ -258,10 +250,6 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            Timber.d("Swiped!");
-            Timber.d("AdapterPosition: " + viewHolder.getAdapterPosition());
-            Timber.d("OldPosition: " + viewHolder.getOldPosition());
-            Timber.d("LayoutPosition: + " + viewHolder.getLayoutPosition());
             EventBus.getDefault().post(new RecyclerViewItemDeleteEvent(viewHolder.getAdapterPosition()));
         }
     }
@@ -269,8 +257,16 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
     public static class RecyclerViewItemDeleteEvent {
         public final int deletedItemsAdapterPosition;
 
-        public RecyclerViewItemDeleteEvent(int deletedItemsAdapterPosition) {
+        RecyclerViewItemDeleteEvent(int deletedItemsAdapterPosition) {
             this.deletedItemsAdapterPosition = deletedItemsAdapterPosition;
+        }
+    }
+
+    public static class ViewDetailWeatherEvent {
+        public final String zipCode;
+
+        ViewDetailWeatherEvent(String zipCode) {
+            this.zipCode = zipCode;
         }
     }
 }
