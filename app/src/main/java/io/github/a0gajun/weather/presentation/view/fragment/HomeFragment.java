@@ -17,14 +17,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.location.places.ui.PlacePicker;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.util.ExceptionToResourceMapping;
 
 import java.util.Collection;
 
@@ -38,6 +36,7 @@ import io.github.a0gajun.weather.presentation.view.HomeView;
 import io.github.a0gajun.weather.presentation.view.LoadingView;
 import io.github.a0gajun.weather.presentation.view.RequestPermissionView;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
+import io.github.a0gajun.weather.presentation.view.activity.TodaysEventForecastActivity;
 import io.github.a0gajun.weather.presentation.view.activity.WatchingLocationRegistrationActivity;
 import io.github.a0gajun.weather.presentation.view.activity.WeatherDetailActivity;
 import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
@@ -79,6 +78,7 @@ public class HomeFragment extends BaseFragment implements HomeView,
         setUpRecyclerView();
         setUpSwipeRefreshLayout();
         setUpFAB();
+        setUpToolbar();
 
         this.homePresenter.setView(this);
         this.permissionPresenter.setView(this);
@@ -261,13 +261,29 @@ public class HomeFragment extends BaseFragment implements HomeView,
         });
     }
 
+    private void setUpToolbar() {
+        this.binding.toolbarBinding.toolbar.inflateMenu(R.menu.menu_calendar);
+        MenuItem menuItem = binding.toolbarBinding.toolbar.getMenu().findItem(R.id.calendar_btn);
+        menuItem.setOnMenuItemClickListener(v -> {
+            startActivity(TodaysEventForecastActivity.getCallingIntent(getContext()));
+            return true;
+        });
+
+    }
+
     private void showTutorialIfNeeded() {
-        new MaterialShowcaseView.Builder(getActivity())
-                .setTarget(this.binding.fab)
-                .setDismissText("Got it")
-                .setContentText("You can add locations which you want to watch from here! Try It!")
-                .setDelay(500)
-                .singleUse("FAB")
-                .show();
+        ShowcaseConfig showcaseConfig = new ShowcaseConfig();
+        showcaseConfig.setDelay(500);
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), "HomeFragment");
+        sequence.setConfig(showcaseConfig);
+
+        sequence.addSequenceItem(this.binding.fab,
+                "You can add locations which you want to watch from here! Try It!", "Got it");
+
+        sequence.addSequenceItem(getView().findViewById(R.id.calendar_btn),
+                "You can see your today's schedule and forecast!", "Got it");
+
+        sequence.start();
     }
 }

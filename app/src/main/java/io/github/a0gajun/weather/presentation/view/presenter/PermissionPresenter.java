@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.pm.ActivityInfoCompat;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -64,6 +65,11 @@ public class PermissionPresenter implements Presenter {
         requestPermission(activity, PermissionCode.LOCATION);
     }
 
+    public void requestCalendarPermission(Activity activity) {
+        Timber.d("Request Calendar Permission");
+        requestPermission(activity, PermissionCode.CALENDAR);
+    }
+
     /**
      * Request location permission without showing rationale.
      *
@@ -86,6 +92,13 @@ public class PermissionPresenter implements Presenter {
         ActivityCompat.requestPermissions(activity,
                 new String[]{PermissionCode.LOCATION.getPermission()},
                 PermissionCode.LOCATION.getRequestCode());
+    }
+
+    public void requestCalendarPermissionWithoutRationale(Activity activity) {
+        Timber.d("Request Calendar Permission forcefully");
+        ActivityCompat.requestPermissions(activity,
+                new String[]{PermissionCode.CALENDAR.getPermission()},
+                PermissionCode.CALENDAR.getRequestCode());
     }
 
     /**
@@ -129,7 +142,8 @@ public class PermissionPresenter implements Presenter {
     }
 
     public enum PermissionCode {
-        LOCATION(Manifest.permission.ACCESS_FINE_LOCATION, 1);
+        LOCATION(Manifest.permission.ACCESS_FINE_LOCATION, 1),
+        CALENDAR(Manifest.permission.READ_CALENDAR, 2);
 
         private static Set<Integer> requestCodeSet = Collections.EMPTY_SET;
 

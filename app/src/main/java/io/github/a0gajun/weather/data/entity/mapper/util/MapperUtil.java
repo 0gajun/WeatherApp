@@ -55,6 +55,12 @@ public class MapperUtil {
         return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
+    public static ZonedDateTime convertMillisUnixTimeIntoZonedDateTime(final long unixTimeMillis) {
+        final Instant instant = Instant.ofEpochMilli(unixTimeMillis);
+        return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+
     // TODO: Move to appropriate class
     public static String convertWeatherIconIntoIconUrl(final String iconOfWeather) {
         return "http://openweathermap.org/img/w/" + iconOfWeather + ".png";

@@ -11,6 +11,7 @@ import io.github.a0gajun.weather.presentation.di.PerActivity;
 import io.github.a0gajun.weather.presentation.di.module.ActivityModule;
 import io.github.a0gajun.weather.presentation.di.module.WeatherModule;
 import io.github.a0gajun.weather.presentation.view.fragment.HomeFragment;
+import io.github.a0gajun.weather.presentation.view.fragment.TodaysEventForecastFragment;
 import io.github.a0gajun.weather.presentation.view.fragment.WeatherDetailFragment;
 
 /**
@@ -22,4 +23,5 @@ import io.github.a0gajun.weather.presentation.view.fragment.WeatherDetailFragmen
 public interface WeatherComponent extends ActivityComponent {
     void inject(HomeFragment homeFragment);
     void inject(WeatherDetailFragment weatherDetailFragment);
+    void inject(TodaysEventForecastFragment todaysEventForecastFragment);
 }
