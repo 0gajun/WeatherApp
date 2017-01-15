@@ -33,7 +33,7 @@ public class ZipCodeUtil {
             return zipCode;
         }
 
-        return String.format("%s-%s", zipCode.substring(0, 2), zipCode.substring(3, 7));
+        return String.format("%s-%s", zipCode.substring(0, 3), zipCode.substring(3, 7));
     }
 
     public static class InvalidZipCodeFormatException extends RuntimeException {

@@ -11,4 +11,5 @@
     <string name="msg_successfully_registered">Successfully registered!</string>
     <string name="msg_postalcode_fmt_is_invalid">Postal code format is invalid.</string>
     <string name="msg_postalcode_already_registered">This postal code is already registered.</string>
+    <string name="msg_searching">Searching…</string>
 </resources>

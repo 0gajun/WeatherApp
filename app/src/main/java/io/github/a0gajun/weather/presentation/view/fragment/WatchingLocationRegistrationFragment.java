@@ -118,6 +118,8 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
                 // TODO: Move to presenter?
                 if (ZipCodeUtil.isValidZipCode(text)) {
                     WatchingLocationRegistrationFragment.this
+                            .showNormalMsgInLocationCard(R.string.msg_searching);
+                    WatchingLocationRegistrationFragment.this
                             .watchingLocationRegistrationPresenter.resolveLocationByZipCode(text);
                 } else {
                     // TODO: Reduce call count

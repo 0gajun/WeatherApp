@@ -8,14 +8,13 @@ package io.github.a0gajun.weather.domain.usecase;
 
 import android.content.Context;
 
-import java.util.Arrays;
-import java.util.List;
-
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
+import io.github.a0gajun.weather.domain.model.WatchingLocation;
+import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -28,19 +27,22 @@ public class GetRegisteredLocationWeatherAndForecast extends UseCase {
 
     private final Context context;
     private final WeatherRepository weatherRepository;
+    private final WatchingLocationRepository watchingLocationRepository;
 
     public GetRegisteredLocationWeatherAndForecast(Context context,
                                                    WeatherRepository weatherRepository,
+                                                   WatchingLocationRepository watchingLocationRepository,
                                                    ThreadExecutor threadExecutor,
                                                    PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.context = context;
         this.weatherRepository = weatherRepository;
+        this.watchingLocationRepository = watchingLocationRepository;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        return Observable.from(getRegisteredZipCodeList())
+        return this.getRegisteredZipCodeObservable()
                 .observeOn(Schedulers.from(this.threadExecutor))
                 .flatMap(zipCode -> {
                     Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(zipCode);
@@ -51,8 +53,9 @@ public class GetRegisteredLocationWeatherAndForecast extends UseCase {
                 .toList();
     }
 
-    private List<String> getRegisteredZipCodeList() {
-        return Arrays.asList("223-0061", "150-0013", "192-0353", "206-0012");
-
+    private Observable<String> getRegisteredZipCodeObservable() {
+        return this.watchingLocationRepository.getAllWatchingLocations()
+                .sorted((e1, e2) -> e1.getPriority() > e2.getPriority() ? 1 : -1)
+                .map(WatchingLocation::getZipCode);
     }
 }

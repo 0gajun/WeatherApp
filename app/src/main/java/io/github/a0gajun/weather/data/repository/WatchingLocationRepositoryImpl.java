@@ -33,7 +33,7 @@ public class WatchingLocationRepositoryImpl implements WatchingLocationRepositor
 
     @Override
     public Observable<WatchingLocation> registerOrUpdateWatchingLocation(final WatchingLocation watchingLocation) {
-         WatchingLocationEntity entity = this.watchingLocationMapper.transform(watchingLocation);
+        WatchingLocationEntity entity = this.watchingLocationMapper.transform(watchingLocation);
 
         if (entity == null) {
             return Observable.error(new RuntimeException("")); // TODO: Throw proper exception
@@ -47,6 +47,7 @@ public class WatchingLocationRepositoryImpl implements WatchingLocationRepositor
 
     @Override
     public Observable<WatchingLocation> getAllWatchingLocations() {
-        return null;
+        return this.ormaDatabase.selectFromWatchingLocationEntity().executeAsObservable()
+                .map(this.watchingLocationMapper::transform);
     }
 }
