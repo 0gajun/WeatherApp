@@ -14,6 +14,7 @@ import io.github.a0gajun.weather.data.entity.mapper.WatchingLocationMapper;
 import io.github.a0gajun.weather.domain.model.WatchingLocation;
 import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import rx.Observable;
+import rx.Single;
 
 /**
  * Created by Junya Ogasawara on 1/14/17.
@@ -49,5 +50,13 @@ public class WatchingLocationRepositoryImpl implements WatchingLocationRepositor
     public Observable<WatchingLocation> getAllWatchingLocations() {
         return this.ormaDatabase.selectFromWatchingLocationEntity().executeAsObservable()
                 .map(this.watchingLocationMapper::transform);
+    }
+
+    @Override
+    public Single<String> unregisterWatchingLocation(final String zipCode) {
+        return this.ormaDatabase.deleteFromWatchingLocationEntity()
+                .zipCodeEq(zipCode)
+                .executeAsObservable()
+                .flatMap(e -> Single.just(zipCode));
     }
 }

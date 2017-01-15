@@ -11,9 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,6 @@ import io.github.a0gajun.weather.presentation.view.HomeView;
 import io.github.a0gajun.weather.presentation.view.LoadingView;
 import io.github.a0gajun.weather.presentation.view.RequestPermissionView;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
-import io.github.a0gajun.weather.presentation.view.activity.HomeActivity;
 import io.github.a0gajun.weather.presentation.view.activity.WatchingLocationRegistrationActivity;
 import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
@@ -52,8 +53,8 @@ public class HomeFragment extends BaseFragment implements HomeView,
     @Inject HomePresenter homePresenter;
     @Inject PermissionPresenter permissionPresenter;
     @Inject HomeWeathersAdapter homeWeathersAdapter;
+    private ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new HomeWeathersAdapter.HomeWeathersItemTouchHelperCallback());
     private FragmentHomeBinding binding;
-
 
     @Nullable
     @Override
@@ -119,7 +120,6 @@ public class HomeFragment extends BaseFragment implements HomeView,
         super.onDetach();
         this.binding.rvWeathers.setAdapter(null);
     }
-
 
     @Override
     public void renderWeathers(Collection<CurrentWeatherAndForecast> currentWeatherAndForecast) {
@@ -192,6 +192,29 @@ public class HomeFragment extends BaseFragment implements HomeView,
         }
     }
 
+    @Subscribe
+    public void onRecyclerViewItemDeleteEvent(final HomeWeathersAdapter.RecyclerViewItemDeleteEvent event) {
+        final CurrentWeatherAndForecast currentWeatherAndForecast
+                = this.homeWeathersAdapter.deleteItem(event.deletedItemsAdapterPosition);
+        final String zipCode = currentWeatherAndForecast.getZipCode();
+
+        // TODO: Refactor
+        Snackbar.make(getView(), "Unregistered", Snackbar.LENGTH_LONG)
+                .setAction("UNDO", v -> this.homePresenter.reload())
+                .addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                        if (event == DISMISS_EVENT_ACTION) {
+                            return;
+                        }
+
+                        Timber.d("Unregister from DB: " + zipCode);
+                        HomeFragment.this.homePresenter.unregisterWatchingLocation(zipCode);
+                    }
+                })
+                .show();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -208,6 +231,8 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
     private void setUpRecyclerView() {
         this.binding.rvWeathers.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.itemTouchHelper.attachToRecyclerView(this.binding.rvWeathers);
+        this.binding.rvWeathers.addItemDecoration(this.itemTouchHelper);
         this.binding.rvWeathers.setAdapter(this.homeWeathersAdapter);
     }
 

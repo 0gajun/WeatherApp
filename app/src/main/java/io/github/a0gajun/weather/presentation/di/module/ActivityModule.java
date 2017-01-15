@@ -18,6 +18,7 @@ import io.github.a0gajun.weather.domain.repository.GeocodingRepository;
 import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.usecase.GeocodingUsingZipCode;
 import io.github.a0gajun.weather.domain.usecase.RegisterWatchingLocation;
+import io.github.a0gajun.weather.domain.usecase.UnregisterWatchingLocation;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
 
 /**
@@ -52,5 +53,12 @@ public class ActivityModule {
     RegisterWatchingLocation provideRegisterWatchingLocation(WatchingLocationRepository watchingLocationRepository,
                                                              ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         return new RegisterWatchingLocation(watchingLocationRepository, threadExecutor, postExecutionThread);
+    }
+
+    @Provides
+    @PerActivity
+    UnregisterWatchingLocation provideUnregisterWatchingLocation(WatchingLocationRepository watchingLocationRepository,
+                                                                 ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+        return new UnregisterWatchingLocation(watchingLocationRepository, threadExecutor, postExecutionThread);
     }
 }

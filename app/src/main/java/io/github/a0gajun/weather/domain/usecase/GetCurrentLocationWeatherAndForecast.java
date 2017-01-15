@@ -57,11 +57,14 @@ public class GetCurrentLocationWeatherAndForecast extends UseCase {
         return this.locationRepository.startLocationUpdates()
                 .observeOn(Schedulers.from(this.threadExecutor))
                 .flatMap(location -> {
-                    Address address = this.resolveAddressFromLocation(location);
-                    Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(address.getPostalCode());
-                    Observable<FiveDayForecast> fiveDayForecastObservable = this.weatherRepository.fiveDayForecast(address.getPostalCode());
+                    final Address address = this.resolveAddressFromLocation(location);
+                    final String zipCode = address.getPostalCode();
+                    Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(zipCode);
+                    Observable<FiveDayForecast> fiveDayForecastObservable = this.weatherRepository.fiveDayForecast(zipCode);
 
-                    return Observable.zip(currentWeatherObservable, fiveDayForecastObservable, CurrentWeatherAndForecast::new);
+                    return Observable.zip(currentWeatherObservable,
+                            fiveDayForecastObservable,
+                            ((currentWeather, forecast) -> new CurrentWeatherAndForecast(currentWeather, forecast, zipCode)));
                 })
                 .map(currentWeatherAndForecast -> {
                     Timber.d(currentWeatherAndForecast.toString());

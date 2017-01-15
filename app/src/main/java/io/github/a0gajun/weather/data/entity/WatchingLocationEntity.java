@@ -25,7 +25,7 @@ public class WatchingLocationEntity {
     @Column
     @Getter @Setter int priority;
 
-    @Column(unique = true)
+    @Column(unique = true, indexed = true)
     @Getter @Setter String zipCode;
 
 }

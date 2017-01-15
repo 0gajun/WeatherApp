@@ -16,6 +16,7 @@ import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.model.WatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;
 import io.github.a0gajun.weather.domain.usecase.RegisterWatchingLocation;
+import io.github.a0gajun.weather.domain.usecase.UnregisterWatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.module.Qualifiers;
 import io.github.a0gajun.weather.presentation.view.HomeView;
@@ -30,7 +31,7 @@ public class HomePresenter implements Presenter {
 
     private final UseCase getCurrentLocationWeatherAndForecast;
     private final UseCase getRegisteredLocationWeatherAndForecast;
-    private final RegisterWatchingLocation registerWatchingLocation;
+    private final UnregisterWatchingLocation unregisterWatchingLocation;
 
     private HomeView homeView;
     private LoadingView loadingView;
@@ -40,10 +41,10 @@ public class HomePresenter implements Presenter {
     @Inject
     public HomePresenter(@Named(Qualifiers.CURRENT_LOCATION_WEATHER_FORECAST) UseCase getCurrentLocationWeatherAndForecast,
                          @Named(Qualifiers.REGISTERED_LOCATION_WEATHER_FORECAST) UseCase getRegisteredLocationWeatherAndForecast,
-                         @Named(Qualifiers.REGISTER_WATCHING_LOCATION) RegisterWatchingLocation registerWatchingLocation) {
+                         UnregisterWatchingLocation unregisterWatchingLocation) {
         this.getCurrentLocationWeatherAndForecast = getCurrentLocationWeatherAndForecast;
         this.getRegisteredLocationWeatherAndForecast = getRegisteredLocationWeatherAndForecast;
-        this.registerWatchingLocation = registerWatchingLocation;
+        this.unregisterWatchingLocation = unregisterWatchingLocation;
     }
 
     public <T extends HomeView & LoadingView> void setView(T view) {
@@ -68,6 +69,7 @@ public class HomePresenter implements Presenter {
 
         this.getCurrentLocationWeatherAndForecast.unsubscribe();
         this.getRegisteredLocationWeatherAndForecast.unsubscribe();
+        this.unregisterWatchingLocation.unsubscribe();
     }
 
     private void render() {
@@ -83,12 +85,9 @@ public class HomePresenter implements Presenter {
         return newList;
     }
 
-    public void registerWatchingLocation(final String zipCode) {
-        WatchingLocation watchingLocation = new WatchingLocation();
-        watchingLocation.setPriority(0);
-        watchingLocation.setZipCode(zipCode);
-        this.registerWatchingLocation.setWatchingLocation(watchingLocation);
-        this.registerWatchingLocation.execute(new RegisterWatchingLocationSubscriber());
+    public void unregisterWatchingLocation(final String zipCode) {
+        this.unregisterWatchingLocation.setZipCode(zipCode);
+        this.unregisterWatchingLocation.execute(new UnregisterWatchingLocationSubscriber());
     }
 
     public void loadRegisteredWeathers() {
@@ -156,7 +155,7 @@ public class HomePresenter implements Presenter {
         }
     }
 
-    private class RegisterWatchingLocationSubscriber extends DefaultSubscriber<WatchingLocation> {
+    private class UnregisterWatchingLocationSubscriber extends DefaultSubscriber<WatchingLocation> {
         @Override
         public void onCompleted() {
             super.onCompleted();

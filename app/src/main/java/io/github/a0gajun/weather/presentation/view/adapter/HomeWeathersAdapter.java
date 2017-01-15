@@ -11,15 +11,19 @@ import android.app.Service;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.provider.ContactsContract;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.google.common.collect.Lists;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +39,7 @@ import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import lombok.Getter;
+import timber.log.Timber;
 
 /**
  * Created by Junya Ogasawara on 1/14/17.
@@ -129,6 +134,16 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
         binding.weatherIcon.setImageResource(weather.getWeatherIconResId());
 
         setUpRecyclerView(binding, context, forecast);
+
+        bindingHolder.itemView.setOnClickListener(v -> {
+            Timber.d("Clicked! : " + data.getCurrentWeather().getCityName());
+        });
+
+        bindingHolder.itemView.setLongClickable(true);
+        bindingHolder.itemView.setOnLongClickListener(v -> {
+            Timber.d("LongClicked! : " + data.getCurrentWeather().getCityName());
+            return false;
+        });
     }
 
     private void setUpRecyclerView(LayoutWeatherAndForecastCardBinding binding, Context context, FiveDayForecast forecast) {
@@ -146,17 +161,35 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
         return new ArrayList<>(forecast.getForecastData().subList(0, FORECAST_MAX_ENTRY));
     }
 
+    /**
+     *
+     * @param position
+     * @return Deleted data
+     */
+    public synchronized CurrentWeatherAndForecast deleteItem(int position) {
+        AbstractDataHolder dataHolder = this.dataHolders.get(position);
+        if (dataHolder == null || dataHolder.viewType != ViewType.REGISTERED_LOCATION) {
+            return null;
+        }
+        final CurrentWeatherAndForecast data = ((DataHolder) dataHolder).getCurrentWeatherAndForecast();
+
+        this.dataHolders.remove(position);
+        this.notifyItemRemoved(position);
+
+        return data;
+    }
+
     @Override
     public int getItemCount() {
         return this.dataHolders.size();
     }
 
-    private enum ViewType {
+    public enum ViewType {
         HEADER(1),
         CURRENT_LOCATION(2),
         REGISTERED_LOCATION(3);
 
-        final int value;
+        public final int value;
 
         ViewType(int v) {
             this.value = v;
@@ -206,6 +239,38 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
 
         public ViewDataBinding getBinding() {
             return binding;
+        }
+    }
+
+    public static class HomeWeathersItemTouchHelperCallback extends ItemTouchHelper.Callback {
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            if (viewHolder.getItemViewType() == ViewType.REGISTERED_LOCATION.value) {
+                return makeMovementFlags(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT);
+            }
+            return 0;
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            Timber.d("Swiped!");
+            Timber.d("AdapterPosition: " + viewHolder.getAdapterPosition());
+            Timber.d("OldPosition: " + viewHolder.getOldPosition());
+            Timber.d("LayoutPosition: + " + viewHolder.getLayoutPosition());
+            EventBus.getDefault().post(new RecyclerViewItemDeleteEvent(viewHolder.getAdapterPosition()));
+        }
+    }
+
+    public static class RecyclerViewItemDeleteEvent {
+        public final int deletedItemsAdapterPosition;
+
+        public RecyclerViewItemDeleteEvent(int deletedItemsAdapterPosition) {
+            this.deletedItemsAdapterPosition = deletedItemsAdapterPosition;
         }
     }
 }

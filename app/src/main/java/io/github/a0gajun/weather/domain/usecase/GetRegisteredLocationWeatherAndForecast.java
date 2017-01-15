@@ -48,7 +48,9 @@ public class GetRegisteredLocationWeatherAndForecast extends UseCase {
                     Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(zipCode);
                     Observable<FiveDayForecast> fiveDayForecastObservable = this.weatherRepository.fiveDayForecast(zipCode);
 
-                    return Observable.zip(currentWeatherObservable, fiveDayForecastObservable, CurrentWeatherAndForecast::new);
+                    return Observable.zip(currentWeatherObservable,
+                            fiveDayForecastObservable,
+                            ((currentWeather, forecast) -> new CurrentWeatherAndForecast(currentWeather, forecast, zipCode)));
                 })
                 .toList();
     }

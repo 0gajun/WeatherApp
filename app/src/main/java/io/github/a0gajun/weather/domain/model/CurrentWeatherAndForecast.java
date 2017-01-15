@@ -16,11 +16,13 @@ import lombok.Setter;
 public class CurrentWeatherAndForecast {
     @Getter private final CurrentWeather currentWeather;
     @Getter private final FiveDayForecast fiveDayForecast;
+    @Getter private final String zipCode;
 
     @Getter @Setter private boolean isCurrentLocation;
 
-    public CurrentWeatherAndForecast(CurrentWeather currentWeather, FiveDayForecast fiveDayForecast) {
+    public CurrentWeatherAndForecast(CurrentWeather currentWeather, FiveDayForecast fiveDayForecast, String zipCode) {
         this.currentWeather = currentWeather;
         this.fiveDayForecast = fiveDayForecast;
+        this.zipCode = zipCode;
     }
 }
