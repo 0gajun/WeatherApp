@@ -71,6 +71,7 @@ public class LocationRepositoryImpl implements LocationRepository,
                 if (this.googleApiClient.isConnected() || this.googleApiClient.isConnecting()) {
                     LocationServices.FusedLocationApi.removeLocationUpdates(this.googleApiClient, this);
                     this.googleApiClient.disconnect();
+                    this.subscriber = null;
                 }
             }));
 
