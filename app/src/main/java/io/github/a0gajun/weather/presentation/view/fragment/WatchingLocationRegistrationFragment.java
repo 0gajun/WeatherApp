@@ -98,6 +98,8 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search with location name");
         searchView.setIconifiedByDefault(false);
+        searchView.setFocusable(false);
+        searchView.setFocusableInTouchMode(false);
     }
 
     private void setUpRegisterButton() {
@@ -133,6 +135,7 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
                 }
             }
         });
+        binding.postalCodeEditText.requestFocus();
     }
 
     @Override
