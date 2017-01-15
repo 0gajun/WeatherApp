@@ -6,7 +6,9 @@
 
 package io.github.a0gajun.weather.presentation.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -31,10 +33,12 @@ import io.github.a0gajun.weather.presentation.view.HomeView;
 import io.github.a0gajun.weather.presentation.view.LoadingView;
 import io.github.a0gajun.weather.presentation.view.RequestPermissionView;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
+import io.github.a0gajun.weather.presentation.view.activity.HomeActivity;
 import io.github.a0gajun.weather.presentation.view.activity.WatchingLocationRegistrationActivity;
 import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
 import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter;
+import timber.log.Timber;
 
 /**
  * Created by Junya Ogasawara on 1/14/17.
@@ -42,6 +46,8 @@ import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter
 
 public class HomeFragment extends BaseFragment implements HomeView,
         LoadingView, RequestPermissionView, SwipeRefreshLayout.OnRefreshListener {
+
+    private static final int WATCHING_LOCATION_REGISTRATION_REQUEST_CODE = 1;
 
     @Inject HomePresenter homePresenter;
     @Inject PermissionPresenter permissionPresenter;
@@ -186,6 +192,20 @@ public class HomeFragment extends BaseFragment implements HomeView,
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case WATCHING_LOCATION_REGISTRATION_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    this.showLoading();
+                    this.onRefresh();
+                    return;
+                }
+            default:
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private void setUpRecyclerView() {
         this.binding.rvWeathers.setLayoutManager(new LinearLayoutManager(getContext()));
         this.binding.rvWeathers.setAdapter(this.homeWeathersAdapter);
@@ -197,7 +217,8 @@ public class HomeFragment extends BaseFragment implements HomeView,
 
     private void setUpFAB() {
         this.binding.fab.setOnClickListener(v -> {
-            EventBus.getDefault().post(new BaseActivity.NavigationEvent(WatchingLocationRegistrationActivity.getCallingIntent(getContext())));
+            startActivityForResult(WatchingLocationRegistrationActivity
+                    .getCallingIntent(getContext()), WATCHING_LOCATION_REGISTRATION_REQUEST_CODE);
         });
     }
 }

@@ -6,9 +6,12 @@
 
 package io.github.a0gajun.weather.presentation.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import org.greenrobot.eventbus.EventBus;
 
 import io.github.a0gajun.weather.R;
 import io.github.a0gajun.weather.databinding.ActivityHomeBinding;
@@ -18,7 +21,6 @@ import io.github.a0gajun.weather.presentation.di.component.WeatherComponent;
 import io.github.a0gajun.weather.presentation.di.module.ActivityModule;
 import io.github.a0gajun.weather.presentation.di.module.WeatherModule;
 import io.github.a0gajun.weather.presentation.view.fragment.HomeFragment;
-import io.github.a0gajun.weather.presentation.view.fragment.WatchingLocationRegistrationFragment;
 
 /**
  * Created by Junya Ogasawara on 1/13/17.

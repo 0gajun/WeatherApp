@@ -6,12 +6,10 @@
 
 package io.github.a0gajun.weather.presentation.view.activity;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,16 +53,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onNavigationEvent(NavigationEvent navigationEvent) {
-        if (navigationEvent.needsResult) {
-            startActivityForResult(navigationEvent.intent, navigationEvent.requestCode);
-        } else {
-            startActivity(navigationEvent.intent);
-        }
-    }
-
-    @Subscribe
     public void onFinishActivityEvent(FinishActivityEvent finishActivityEvent) {
+        if (finishActivityEvent.usesResultCode) {
+            setResult(finishActivityEvent.resultCode);
+        }
         finish();
     }
 
@@ -80,26 +72,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public static class NavigationEvent {
-        final Intent intent;
-        final boolean needsResult;
-        final int requestCode;
-
-        public NavigationEvent(Intent intent) {
-            this(intent, false, 0);
-        }
-
-        public NavigationEvent(Intent intent, int requestCode) {
-            this(intent, true, requestCode);
-        }
-
-        private NavigationEvent(Intent intent, boolean needsResult, int requestCode) {
-            this.intent = intent;
-            this.needsResult = needsResult;
-            this.requestCode = requestCode;
-        }
-    }
-
     public static class FinishActivityEvent {
+        final int resultCode;
+        final boolean usesResultCode;
+
+        public FinishActivityEvent() {
+            this.resultCode = 0;
+            this.usesResultCode = false;
+        }
+
+        public FinishActivityEvent(int resultCode) {
+            this.resultCode = resultCode;
+            this.usesResultCode = true;
+        }
     }
 }

@@ -6,6 +6,7 @@
 
 package io.github.a0gajun.weather.presentation.view.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.common.eventbus.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,6 +35,7 @@ import io.github.a0gajun.weather.domain.util.ZipCodeUtil;
 import io.github.a0gajun.weather.presentation.di.component.ActivityComponent;
 import io.github.a0gajun.weather.presentation.view.WatchingLocationRegistrationView;
 import io.github.a0gajun.weather.presentation.view.activity.BaseActivity;
+import io.github.a0gajun.weather.presentation.view.activity.HomeActivity;
 import io.github.a0gajun.weather.presentation.view.presenter.WatchingLocationRegistrationPresenter;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -140,10 +144,10 @@ public class WatchingLocationRegistrationFragment extends BaseFragment
         binding.registerBtn.setEnabled(false);
         Snackbar.make(getView(), R.string.msg_successfully_registered, Snackbar.LENGTH_SHORT).show();
 
-        // For showing snack bar...
+        // Delay for showing snack bar...
         Observable.timer(1000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(l -> EventBus.getDefault().post(new BaseActivity.FinishActivityEvent()));
+                .subscribe(l -> EventBus.getDefault().post(new BaseActivity.FinishActivityEvent(Activity.RESULT_OK)));
     }
 
     @Override
