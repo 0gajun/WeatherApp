@@ -44,7 +44,6 @@ import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
 import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter;
 import timber.log.Timber;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**

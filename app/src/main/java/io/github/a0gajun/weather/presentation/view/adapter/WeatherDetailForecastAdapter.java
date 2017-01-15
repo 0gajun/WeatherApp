@@ -18,9 +18,7 @@ import android.view.ViewGroup;
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -87,6 +85,7 @@ public class WeatherDetailForecastAdapter extends RecyclerView.Adapter<WeatherDe
 
     static class BindingHolder extends RecyclerView.ViewHolder {
         private final LayoutWeatherDetailForecastRowBinding binding;
+
         BindingHolder(View itemView) {
             super(itemView);
             this.binding = LayoutWeatherDetailForecastRowBinding.bind(itemView);

@@ -11,7 +11,7 @@ import lombok.Setter;
 
 /**
  * Model representing geocoding result by google maps api.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/12/17.
  */
 

@@ -16,7 +16,6 @@ import org.threeten.bp.temporal.ChronoUnit;
 import io.github.a0gajun.weather.data.entity.CalendarEntity;
 import io.github.a0gajun.weather.data.entity.CalendarEventEntity;
 import rx.Observable;
-import timber.log.Timber;
 
 import static android.provider.CalendarContract.Calendars;
 import static android.provider.CalendarContract.Events;

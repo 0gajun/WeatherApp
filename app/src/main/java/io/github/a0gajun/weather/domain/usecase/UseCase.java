@@ -16,7 +16,7 @@ import rx.subscriptions.Subscriptions;
 
 /**
  * Abstract class for an Use Case for handling business logic.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

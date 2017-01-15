@@ -14,7 +14,7 @@ import rx.Observable;
 /**
  * Retrofit interface definition for Google Maps Api.
  * (https://developers.google.com/maps/)
- *
+ * <p>
  * Created by Junya Ogasawara on 1/11/17.
  */
 

@@ -37,6 +37,7 @@ import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 public class FiveDayForecastMapper {
 
     private static final DateTimeFormatter CALCULATED_AT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     @Inject
     FiveDayForecastMapper() {
     }

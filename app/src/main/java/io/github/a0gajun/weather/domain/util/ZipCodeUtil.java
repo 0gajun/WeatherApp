@@ -6,8 +6,6 @@
 
 package io.github.a0gajun.weather.domain.util;
 
-import android.support.annotation.Nullable;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

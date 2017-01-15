@@ -20,7 +20,7 @@ import rx.Observable;
 public interface LocationRepository {
 
     @RequiresPermission(
-        anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}
+            anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"}
     )
     Observable<Location> startLocationUpdates();
 

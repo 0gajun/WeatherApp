@@ -33,7 +33,7 @@ import timber.log.Timber;
 
 /**
  * When you use this repository, you have to get location permission before.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/12/17.
  */
 

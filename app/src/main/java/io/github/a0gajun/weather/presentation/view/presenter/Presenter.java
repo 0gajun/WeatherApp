@@ -8,7 +8,7 @@ package io.github.a0gajun.weather.presentation.view.presenter;
 
 /**
  * Interface representing a Presenter.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 public interface Presenter {

@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Named;
@@ -34,8 +33,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static io.github.a0gajun.weather.presentation.di.module.Qualifiers.OPEN_WHETHER_MAP_API;
 import static io.github.a0gajun.weather.presentation.di.module.Qualifiers.GOOGLE_MAPS_API;
+import static io.github.a0gajun.weather.presentation.di.module.Qualifiers.OPEN_WHETHER_MAP_API;
 
 /**
  * Created by Junya Ogasawara on 1/9/17.
@@ -84,9 +83,9 @@ public class NetModule {
         List<Interceptor> interceptors = new ArrayList<>();
         Interceptor appIdInjectionInterceptor = chain -> {
             Request request = chain.request();
-                    final HttpUrl url = request.url().newBuilder().addQueryParameter("APPID", BuildConfig.OPEN_WEATHER_MAP_API_KEY).build();
-                    request = request.newBuilder().url(url).build();
-                    return chain.proceed(request);
+            final HttpUrl url = request.url().newBuilder().addQueryParameter("APPID", BuildConfig.OPEN_WEATHER_MAP_API_KEY).build();
+            request = request.newBuilder().url(url).build();
+            return chain.proceed(request);
         };
         interceptors.add(appIdInjectionInterceptor);
 
@@ -100,9 +99,9 @@ public class NetModule {
         List<Interceptor> interceptors = new ArrayList<>();
         Interceptor appIdInjectionInterceptor = chain -> {
             Request request = chain.request();
-                    final HttpUrl url = request.url().newBuilder().addQueryParameter("key", BuildConfig.GOOGLE_MAPS_API_KEY).build();
-                    request = request.newBuilder().url(url).build();
-                    return chain.proceed(request);
+            final HttpUrl url = request.url().newBuilder().addQueryParameter("key", BuildConfig.GOOGLE_MAPS_API_KEY).build();
+            request = request.newBuilder().url(url).build();
+            return chain.proceed(request);
         };
         interceptors.add(appIdInjectionInterceptor);
 

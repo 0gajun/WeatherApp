@@ -6,7 +6,6 @@
 
 package io.github.a0gajun.weather.domain.model;
 
-import android.databinding.Bindable;
 import android.support.annotation.DrawableRes;
 
 import org.threeten.bp.ZonedDateTime;

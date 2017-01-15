@@ -9,12 +9,11 @@ package io.github.a0gajun.weather.presentation.view.fragment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
-import io.github.a0gajun.weather.R;
 import io.github.a0gajun.weather.presentation.di.HasComponent;
 
 /**
  * Base Fragment class.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/9/17.
  */
 

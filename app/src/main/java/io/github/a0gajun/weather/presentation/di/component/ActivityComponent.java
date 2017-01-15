@@ -24,8 +24,11 @@ import io.github.a0gajun.weather.presentation.view.fragment.WatchingLocationRegi
 @Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
     Activity activity();
+
     GeocodingUsingZipCode geocodingUsingZipCode();
+
     RegisterWatchingLocation registerWatchingLocation();
+
     UnregisterWatchingLocation unregisterWatchingLocation();
 
     void inject(WatchingLocationRegistrationFragment fragment);

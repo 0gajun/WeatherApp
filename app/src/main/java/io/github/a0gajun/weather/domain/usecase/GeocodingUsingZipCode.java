@@ -25,7 +25,7 @@ public class GeocodingUsingZipCode extends UseCase {
 
     @Inject
     public GeocodingUsingZipCode(GeocodingRepository geocodingRepository,
-                                       ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+                                 ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.geocodingRepository = geocodingRepository;
     }

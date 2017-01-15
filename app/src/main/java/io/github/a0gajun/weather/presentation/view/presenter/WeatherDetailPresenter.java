@@ -8,7 +8,6 @@ package io.github.a0gajun.weather.presentation.view.presenter;
 
 import javax.inject.Inject;
 
-import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.model.GeocodingResult;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;

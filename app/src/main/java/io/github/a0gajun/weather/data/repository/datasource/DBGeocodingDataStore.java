@@ -8,7 +8,6 @@ package io.github.a0gajun.weather.data.repository.datasource;
 
 import io.github.a0gajun.weather.data.entity.GoogleMapsGeocodingCacheEntity;
 import io.github.a0gajun.weather.data.entity.OrmaDatabase;
-import io.github.a0gajun.weather.domain.model.GeocodingResult;
 import rx.Observable;
 
 /**

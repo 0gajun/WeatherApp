@@ -6,14 +6,10 @@
 
 package io.github.a0gajun.weather.data.entity.mapper.util;
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntegerRes;
-
 import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 
-import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

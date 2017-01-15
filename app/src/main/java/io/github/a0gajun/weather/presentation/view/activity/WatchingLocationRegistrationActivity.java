@@ -16,7 +16,6 @@ import io.github.a0gajun.weather.R;
 import io.github.a0gajun.weather.databinding.ActivityLayoutBinding;
 import io.github.a0gajun.weather.presentation.di.HasComponent;
 import io.github.a0gajun.weather.presentation.di.component.ActivityComponent;
-import io.github.a0gajun.weather.presentation.di.component.ApplicationComponent;
 import io.github.a0gajun.weather.presentation.di.component.DaggerActivityComponent;
 import io.github.a0gajun.weather.presentation.di.module.ActivityModule;
 import io.github.a0gajun.weather.presentation.view.fragment.WatchingLocationRegistrationFragment;

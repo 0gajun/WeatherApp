@@ -6,12 +6,9 @@
 
 package io.github.a0gajun.weather.presentation.view.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-import org.greenrobot.eventbus.EventBus;
 
 import io.github.a0gajun.weather.R;
 import io.github.a0gajun.weather.databinding.ActivityHomeBinding;

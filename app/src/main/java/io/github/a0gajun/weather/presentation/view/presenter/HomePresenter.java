@@ -15,7 +15,6 @@ import javax.inject.Named;
 import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.model.WatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.DefaultSubscriber;
-import io.github.a0gajun.weather.domain.usecase.RegisterWatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.UnregisterWatchingLocation;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.module.Qualifiers;

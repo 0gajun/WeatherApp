@@ -10,13 +10,11 @@ import android.app.Service;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.DateTimeFormatterBuilder;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -63,7 +61,7 @@ public class EveryThreeHoursForecastAdapter extends RecyclerView.Adapter<EveryTh
 
         final LayoutEveryThreeHoursForecastColBinding binding = holder.getBinding();
         binding.temperature.setText(
-                binding.temperature.getContext().getString(R.string.celsius_degree_fmt,forecast.getTemperature()));
+                binding.temperature.getContext().getString(R.string.celsius_degree_fmt, forecast.getTemperature()));
         binding.weather.setText(forecast.getWeather());
         binding.weatherIcon.setImageResource(forecast.getWeatherIconResId());
         binding.time.setText(forecast.getForecastAt().format(TIME_FORMATTER));

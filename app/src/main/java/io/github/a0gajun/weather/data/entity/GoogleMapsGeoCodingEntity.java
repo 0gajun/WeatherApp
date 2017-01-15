@@ -15,7 +15,7 @@ import lombok.Getter;
 /**
  * Entity class of Google Maps Geocoding API (provided by Google)
  * Documentation is here -> https://developers.google.com/maps/documentation/geocoding/intro
- *
+ * <p>
  * Created by Junya Ogasawara on 1/11/17.
  */
 
@@ -27,7 +27,7 @@ public class GoogleMapsGeocodingEntity {
 
 
     public static class Result {
-        @Getter @SerializedName("address_components") private List<AddressComponent>  addressComponents;
+        @Getter @SerializedName("address_components") private List<AddressComponent> addressComponents;
 
         @Getter @SerializedName("formatted_address") private String formattedAddress;
 

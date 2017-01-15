@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.annimon.stream.Stream;
-
 import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
@@ -29,7 +27,6 @@ import io.github.a0gajun.weather.databinding.LayoutEventWeatherRowBinding;
 import io.github.a0gajun.weather.domain.model.CalendarEvent;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
 import io.github.a0gajun.weather.domain.model.TodaysEventAndWeather;
-import timber.log.Timber;
 
 
 /**

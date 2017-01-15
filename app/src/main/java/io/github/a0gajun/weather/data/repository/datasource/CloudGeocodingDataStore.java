@@ -6,8 +6,6 @@
 
 package io.github.a0gajun.weather.data.repository.datasource;
 
-import javax.inject.Inject;
-
 import io.github.a0gajun.weather.data.entity.GoogleMapsGeocodingEntity;
 import io.github.a0gajun.weather.data.net.GoogleMapsApi;
 import rx.Observable;

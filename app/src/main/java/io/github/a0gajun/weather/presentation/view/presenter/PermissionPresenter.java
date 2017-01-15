@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.pm.ActivityInfoCompat;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -30,7 +29,7 @@ import timber.log.Timber;
 
 /**
  * Presenter that requests users to permit several required permission at runtime.
- *
+ * <p>
  * Created by Junya Ogasawara on 1/12/17.
  */
 
