@@ -7,6 +7,7 @@
 package io.github.a0gajun.weather.data.entity;
 
 import com.github.gfx.android.orma.annotation.Column;
+import com.github.gfx.android.orma.annotation.OnConflict;
 import com.github.gfx.android.orma.annotation.PrimaryKey;
 import com.github.gfx.android.orma.annotation.Table;
 
@@ -22,7 +23,7 @@ public class GoogleMapsGeocodingCacheEntity {
     @PrimaryKey
     @Getter @Setter long id;
 
-    @Column(unique = true, indexed = true)
+    @Column(unique = true, indexed = true, uniqueOnConflict = OnConflict.REPLACE)
     @Getter @Setter String postalCode;
 
     @Column

@@ -21,7 +21,7 @@ import io.github.a0gajun.weather.presentation.di.HasComponent;
 public abstract class BaseFragment extends Fragment {
 
     protected void showSnackBar(final String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     @SuppressWarnings("unchecked")

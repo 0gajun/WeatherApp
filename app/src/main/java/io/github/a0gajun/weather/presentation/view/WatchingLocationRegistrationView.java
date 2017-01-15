@@ -16,6 +16,8 @@ public interface WatchingLocationRegistrationView {
 
     void showLocationResolveError();
 
+    void setZipCode(String zipCode);
+
     void showProgress();
 
     void onFinishedRegistrationSuccessfully();

@@ -5,8 +5,11 @@
     <string name="postal_code_fmt">〒 %s</string>
     <string name="meter_per_sec_fmt">%.1f m/s</string>
     <string name="int_percent_fmt">%d%%</string>
-    <string name="label_permit">許可する</string>
-    <string name="msg_permission_required_for_current_location_weather">現在地の天気表示には許可が必要です</string>
+    <string name="label_permit">Permit</string>
+    <string name="msg_permission_required_for_current_location_weather">Permission is
+        required for showing current location\'s weather.</string>
+    <string name="msg_permission_required_for_search_location">Permission is required for
+        searchin location.</string>
 
     <string name="msg_please_input_postal_code">Please input postal code with this format:\nXXX-XXXX.</string>
     <string name="msg_your_input_location_not_resolved">The location of your input cannot be resolved…</string>
@@ -14,4 +17,6 @@
     <string name="msg_postalcode_fmt_is_invalid">Postal code format is invalid.</string>
     <string name="msg_postalcode_already_registered">This postal code is already registered.</string>
     <string name="msg_searching">Searching…</string>
+    <string name="msg_cannnot_use_this_function_with_your_device">Cannot use this function with
+        your device.</string>
 </resources>

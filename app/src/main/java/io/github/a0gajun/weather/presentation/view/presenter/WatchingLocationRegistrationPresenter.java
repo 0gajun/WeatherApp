@@ -7,6 +7,16 @@
 package io.github.a0gajun.weather.presentation.view.presenter;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.support.annotation.Nullable;
+
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -83,6 +93,27 @@ public class WatchingLocationRegistrationPresenter implements Presenter {
         }
         this.geocodingUsingZipCode.setZipCode(zipCode);
         this.geocodingUsingZipCode.execute(new GeocodingUsingZipCodeSubscriber());
+    }
+
+    public void resolveLocationByPlace(Place place) {
+        Address address = convertPlaceIntoAddress(place);
+        if (address != null) {
+            this.watchingLocationRegistrationView.setZipCode(address.getPostalCode());
+        } else {
+            this.watchingLocationRegistrationView.showLocationResolveError();
+        }
+    }
+
+    @Nullable
+    private Address convertPlaceIntoAddress(Place place) {
+        LatLng latLng = place.getLatLng();
+        Geocoder geocoder = new Geocoder(this.context, Locale.ENGLISH);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            return addresses.isEmpty() ? null : addresses.get(0);
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     private class RegisterWatchingLocationSubscriber extends DefaultSubscriber<WatchingLocation> {

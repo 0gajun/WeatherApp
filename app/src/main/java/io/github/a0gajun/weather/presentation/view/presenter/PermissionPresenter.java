@@ -129,7 +129,7 @@ public class PermissionPresenter implements Presenter {
     }
 
     public enum PermissionCode {
-        LOCATION(Manifest.permission.ACCESS_COARSE_LOCATION, 1);
+        LOCATION(Manifest.permission.ACCESS_FINE_LOCATION, 1);
 
         private static Set<Integer> requestCodeSet = Collections.EMPTY_SET;
 
