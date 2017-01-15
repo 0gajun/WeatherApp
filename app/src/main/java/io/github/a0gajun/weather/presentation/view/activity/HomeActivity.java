@@ -47,7 +47,7 @@ public class HomeActivity extends BaseActivity implements HasComponent<WeatherCo
         this.weatherComponent = DaggerWeatherComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(new ActivityModule(this))
-                .weatherModule(new WeatherModule("223-0061")) // TODO: Handling correctly
+                .weatherModule(new WeatherModule())
                 .build();
     }
 

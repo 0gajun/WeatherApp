@@ -19,9 +19,6 @@ import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentLocationWeatherAndForecast;
-import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
-import io.github.a0gajun.weather.domain.usecase.GetCurrentWeatherAndForecast;
-import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.GetRegisteredLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.UseCase;
 import io.github.a0gajun.weather.presentation.di.PerActivity;
@@ -34,29 +31,6 @@ import io.github.a0gajun.weather.presentation.di.PerActivity;
 
 @Module
 public class WeatherModule {
-
-    private final String zipCode;
-
-    public WeatherModule(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    @Provides
-    @PerActivity
-    @Named("currentWeather")
-    UseCase provideGetCurrentWeather(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
-                                     PostExecutionThread postExecutionThread) {
-        return new GetCurrentWeather(this.zipCode, weatherRepository, threadExecutor, postExecutionThread);
-    }
-
-    @Provides
-    @PerActivity
-    @Named("fiveDayForecast")
-    UseCase provideGetFiveDayForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
-                                      PostExecutionThread postExecutionThread) {
-        return new GetFiveDayForecast(this.zipCode, weatherRepository, threadExecutor, postExecutionThread);
-    }
-
     @Provides
     @PerActivity
     @Named(Qualifiers.CURRENT_LOCATION_WEATHER_FORECAST)

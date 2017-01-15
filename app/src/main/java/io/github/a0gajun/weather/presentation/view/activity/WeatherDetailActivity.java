@@ -59,7 +59,7 @@ public class WeatherDetailActivity extends BaseActivity implements HasComponent<
         this.weatherComponent = DaggerWeatherComponent.builder()
                 .applicationComponent(getApplicationComponent())
                 .activityModule(new ActivityModule(this))
-                .weatherModule(new WeatherModule(this.zipCode))
+                .weatherModule(new WeatherModule())
                 .build();
     }
 
