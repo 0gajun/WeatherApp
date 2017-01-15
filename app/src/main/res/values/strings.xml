@@ -3,6 +3,8 @@
 
     <string name="celsius_degree_fmt">%.1f°C</string>
     <string name="postal_code_fmt">〒 %s</string>
+    <string name="meter_per_sec_fmt">%.1f m/s</string>
+    <string name="int_percent_fmt">%d%%</string>
     <string name="label_permit">許可する</string>
     <string name="msg_permission_required_for_current_location_weather">現在地の天気表示には許可が必要です</string>
 

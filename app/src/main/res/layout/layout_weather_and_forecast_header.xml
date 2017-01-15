@@ -9,7 +9,7 @@
         android:layout_marginTop="@dimen/margin_xsmall"
         android:layout_marginRight="@dimen/margin_xsmall"
         android:layout_marginLeft="@dimen/margin_xsmall"
-        app:cardBackgroundColor="@color/cardview_dark_background"
+        app:cardBackgroundColor="@android:color/holo_blue_dark"
         app:cardCornerRadius="4dp">
 
         <TextView

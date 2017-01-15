@@ -19,6 +19,7 @@ import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetCurrentWeather;
+import io.github.a0gajun.weather.domain.usecase.GetCurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.GetFiveDayForecast;
 import io.github.a0gajun.weather.domain.usecase.GetRegisteredLocationWeatherAndForecast;
 import io.github.a0gajun.weather.domain.usecase.UseCase;

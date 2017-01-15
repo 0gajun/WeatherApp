@@ -51,7 +51,7 @@ public class WeatherDetailActivity extends BaseActivity implements HasComponent<
         initializeInjector();
 
         if (savedInstanceState == null) {
-            addFragment(R.id.fragment_container, new WeatherDetailFragment());
+            addFragment(R.id.fragment_container, WeatherDetailFragment.newInstance(zipCode));
         }
     }
 
