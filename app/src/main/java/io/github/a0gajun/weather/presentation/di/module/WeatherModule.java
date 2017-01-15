@@ -14,6 +14,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.github.a0gajun.weather.domain.executor.PostExecutionThread;
 import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
+import io.github.a0gajun.weather.domain.repository.GeocodingRepository;
 import io.github.a0gajun.weather.domain.repository.LocationRepository;
 import io.github.a0gajun.weather.domain.repository.WatchingLocationRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
@@ -75,9 +76,10 @@ public class WeatherModule {
     UseCase provideGetRegisteredLocationWeatherAndForecast(Context context,
                                                            WeatherRepository weatherRepository,
                                                            WatchingLocationRepository watchingLocationRepository,
+                                                           GeocodingRepository geocodingRepository,
                                                            ThreadExecutor threadExecutor,
                                                            PostExecutionThread postExecutionThread) {
         return new GetRegisteredLocationWeatherAndForecast(context, weatherRepository,
-                watchingLocationRepository, threadExecutor, postExecutionThread);
+                watchingLocationRepository, geocodingRepository, threadExecutor, postExecutionThread);
     }
 }

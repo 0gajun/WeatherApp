@@ -125,7 +125,7 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
         final FiveDayForecast forecast = data.getFiveDayForecast();
         final LayoutWeatherAndForecastCardBinding binding = (LayoutWeatherAndForecastCardBinding) bindingHolder.getBinding();
         final Context context = bindingHolder.itemView.getContext();
-        binding.locationTxt.setText(weather.getCityName() + "," + weather.getCountryName());
+        binding.locationTxt.setText(data.getCityName() + "," + data.getCountryName());
         binding.temperature.setText(context.getString(R.string.celsius_degree_fmt, weather.getTemperature()));
         binding.weather.setText(weather.getWeather());
         binding.weatherDesc.setText(weather.getWeatherDescription());

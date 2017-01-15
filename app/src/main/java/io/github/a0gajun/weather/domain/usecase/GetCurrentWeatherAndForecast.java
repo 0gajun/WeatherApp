@@ -13,6 +13,7 @@ import io.github.a0gajun.weather.domain.executor.ThreadExecutor;
 import io.github.a0gajun.weather.domain.model.CurrentWeather;
 import io.github.a0gajun.weather.domain.model.CurrentWeatherAndForecast;
 import io.github.a0gajun.weather.domain.model.FiveDayForecast;
+import io.github.a0gajun.weather.domain.repository.GeocodingRepository;
 import io.github.a0gajun.weather.domain.repository.WeatherRepository;
 import rx.Observable;
 
@@ -23,23 +24,32 @@ import rx.Observable;
 public class GetCurrentWeatherAndForecast extends UseCase {
 
     private final WeatherRepository weatherRepository;
+    private final GeocodingRepository geocodingRepository;
 
     private String zipCode;
 
     @Inject
-    public GetCurrentWeatherAndForecast(WeatherRepository weatherRepository, ThreadExecutor threadExecutor,
+    public GetCurrentWeatherAndForecast(WeatherRepository weatherRepository,
+                                        GeocodingRepository geocodingRepository,
+                                        ThreadExecutor threadExecutor,
                                         PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
         this.weatherRepository = weatherRepository;
+        this.geocodingRepository = geocodingRepository;
     }
 
     @Override
     protected Observable buildUseCaseObservable() {
-        Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(zipCode);
-        Observable<FiveDayForecast> fiveDayForecastObservable = this.weatherRepository.fiveDayForecast(zipCode);
+        return this.geocodingRepository.geocodingWithZipCode(this.zipCode)
+                .flatMap(geocodingResult -> {
+                    Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(zipCode);
+                    Observable<FiveDayForecast> fiveDayForecastObservable = this.weatherRepository.fiveDayForecast(zipCode);
 
-        return Observable.zip(currentWeatherObservable, fiveDayForecastObservable,
-                ((currentWeather, forecast) -> new CurrentWeatherAndForecast(currentWeather, forecast, zipCode)));
+                    return Observable.zip(currentWeatherObservable, fiveDayForecastObservable,
+                            ((currentWeather, forecast)
+                                    -> new CurrentWeatherAndForecast(currentWeather, forecast, zipCode,
+                                    geocodingResult.getCountryName(), geocodingResult.getCityName())));
+                });
     }
 
     public void setZipCode(String zipCode) {

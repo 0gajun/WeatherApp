@@ -62,13 +62,12 @@ public class GetCurrentLocationWeatherAndForecast extends UseCase {
                     Observable<CurrentWeather> currentWeatherObservable = this.weatherRepository.currentWeather(zipCode);
                     Observable<FiveDayForecast> fiveDayForecastObservable = this.weatherRepository.fiveDayForecast(zipCode);
 
-                    return Observable.zip(currentWeatherObservable,
-                            fiveDayForecastObservable,
-                            ((currentWeather, forecast) -> new CurrentWeatherAndForecast(currentWeather, forecast, zipCode)));
+                    return Observable.zip(currentWeatherObservable, fiveDayForecastObservable,
+                            ((currentWeather, forecast)
+                                    -> new CurrentWeatherAndForecast(currentWeather, forecast, zipCode, address.getCountryName(), address.getLocality())));
                 })
                 .map(currentWeatherAndForecast -> {
                     Timber.d(currentWeatherAndForecast.toString());
-                    currentWeatherAndForecast.getCurrentWeather().setWeather("Current");
                     currentWeatherAndForecast.setCurrentLocation(true);
                     return currentWeatherAndForecast;
                 });
