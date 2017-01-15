@@ -11,6 +11,7 @@ import android.app.Service;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.ColorRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -115,8 +116,10 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
     private void setUpHeaderView(BindingHolder bindingHolder, HeaderHolder headerHolder) {
         final LayoutWeatherAndForecastHeaderBinding binding
                 = (LayoutWeatherAndForecastHeaderBinding) bindingHolder.getBinding();
+        final Context context = bindingHolder.itemView.getContext();
 
         binding.headerTxt.setText(headerHolder.getTxt());
+        bindingHolder.itemView.setBackgroundColor(context.getResources().getColor(headerHolder.getColorResId()));
     }
 
     private void setUpCardView(BindingHolder bindingHolder, DataHolder dataHolder) {
@@ -201,14 +204,16 @@ public class HomeWeathersAdapter extends RecyclerView.Adapter<HomeWeathersAdapte
     }
 
     private static class HeaderHolder extends AbstractDataHolder {
-        static final HeaderHolder REGISTERED_LOCATIONS = new HeaderHolder("Registered Locations");
-        static final HeaderHolder CURRENT_LOCATION = new HeaderHolder("Current Location");
+        static final HeaderHolder REGISTERED_LOCATIONS = new HeaderHolder("Your watching Locations", R.color.holo_blue_dark);
+        static final HeaderHolder CURRENT_LOCATION = new HeaderHolder("Current Location", R.color.holo_orange_dark);
 
         @Getter private final String txt;
+        @Getter @ColorRes private final int colorResId;
 
-        private HeaderHolder(String txt) {
+        private HeaderHolder(String txt, @ColorRes int colorResId) {
             super(ViewType.HEADER);
             this.txt = txt;
+            this.colorResId = colorResId;
         }
     }
 

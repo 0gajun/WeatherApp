@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="holo_red_light">@android:color/holo_red_light</color>
+    <color name="holo_blue_dark">@android:color/holo_blue_dark</color>
+    <color name="holo_orange_light">@android:color/holo_orange_light</color>
+    <color name="holo_orange_dark">@android:color/holo_orange_dark</color>
 
 
     <color name="thinColorText">#7a3c4a60</color>

@@ -44,6 +44,9 @@ import io.github.a0gajun.weather.presentation.view.adapter.HomeWeathersAdapter;
 import io.github.a0gajun.weather.presentation.view.presenter.HomePresenter;
 import io.github.a0gajun.weather.presentation.view.presenter.PermissionPresenter;
 import timber.log.Timber;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**
  * Created by Junya Ogasawara on 1/14/17.
@@ -84,6 +87,8 @@ public class HomeFragment extends BaseFragment implements HomeView,
             this.homePresenter.loadCurrentLocationWeather();
             this.homePresenter.loadRegisteredWeathers();
         }
+
+        showTutorialIfNeeded();
     }
 
     @Override
@@ -254,5 +259,15 @@ public class HomeFragment extends BaseFragment implements HomeView,
             startActivityForResult(WatchingLocationRegistrationActivity
                     .getCallingIntent(getContext()), WATCHING_LOCATION_REGISTRATION_REQUEST_CODE);
         });
+    }
+
+    private void showTutorialIfNeeded() {
+        new MaterialShowcaseView.Builder(getActivity())
+                .setTarget(this.binding.fab)
+                .setDismissText("Got it")
+                .setContentText("You can add locations which you want to watch from here! Try It!")
+                .setDelay(500)
+                .singleUse("FAB")
+                .show();
     }
 }

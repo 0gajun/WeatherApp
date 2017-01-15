@@ -103,6 +103,7 @@ public class WeatherDetailFragment extends BaseFragment implements WeatherDetail
         this.binding.temperature.setText(getString(R.string.celsius_degree_fmt, current.getTemperature()));
         this.binding.currentWeatherIcon.setImageResource(current.getWeatherIconResId());
         this.binding.weather.setText(current.getWeather());
+        this.binding.weatherDesc.setText(current.getWeatherDescription());
         this.binding.wind.setText(getString(R.string.meter_per_sec_fmt, current.getWindSpeed()));
         this.binding.cloudiness.setText(getString(R.string.int_percent_fmt, current.getCloudiness()));
         this.binding.humidity.setText(getString(R.string.int_percent_fmt, current.getHumidity()));
