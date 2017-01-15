@@ -89,6 +89,7 @@ public class LocationRepositoryImpl implements LocationRepository,
     public void stopLocationUpdates() {
         if (this.subscriber != null && this.subscriber.isUnsubscribed()) {
             this.subscriber.unsubscribe();
+            this.subscriber = null;
         }
     }
 

@@ -93,6 +93,7 @@ public class HomePresenter implements Presenter {
 
     public void loadRegisteredWeathers() {
         initializeState();
+        this.getRegisteredLocationWeatherAndForecast.unsubscribe();
         this.getRegisteredLocationWeatherAndForecast.execute(new LoadRegisteredWeathersSubscriber());
     }
 
@@ -105,6 +106,7 @@ public class HomePresenter implements Presenter {
      * Manifest.permission.ACCESS_COARSE_LOCATION and Manifest.permission.ACCESS_FILE_LOCATION permission.
      */
     public void loadCurrentLocationWeatherWithProperPermission() {
+        this.getCurrentLocationWeatherAndForecast.unsubscribe();
         this.getCurrentLocationWeatherAndForecast.execute(new LoadCurrentLocationWeatherSubscriber());
     }
 

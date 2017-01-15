@@ -85,4 +85,10 @@ public class GetCurrentLocationWeatherAndForecast extends UseCase {
 
         throw new RuntimeException("Couldn't resolved Address from Location");
     }
+
+    @Override
+    public void unsubscribe() {
+        this.locationRepository.stopLocationUpdates();
+        super.unsubscribe();
+    }
 }
