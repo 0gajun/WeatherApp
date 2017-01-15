@@ -7,17 +7,19 @@
 package io.github.a0gajun.weather.data.entity.mapper;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.github.a0gajun.weather.data.entity.GoogleMapsGeocodingCacheEntity;
 import io.github.a0gajun.weather.data.entity.GoogleMapsGeocodingEntity;
 import io.github.a0gajun.weather.domain.model.GeocodingResult;
 
 /**
  * Mapper class transforming {@link GoogleMapsGeocodingEntity} into {@link GeocodingResult}
- *
+ * <p>
  * Created by Junya Ogasawara on 1/12/17.
  */
 
@@ -49,12 +51,34 @@ public class GoogleMapsGeocodingMapper {
             }
         }
 
-        if (model.getCountryCode().isEmpty()
-                || model.getCityName().isEmpty()
-                || model.getPostalCode().isEmpty()) {
+        if (TextUtils.isEmpty(model.getCountryCode())
+                || TextUtils.isEmpty(model.getCityName())
+                || TextUtils.isEmpty(model.getPostalCode())) {
             return null;
         }
 
         return model;
+    }
+
+    public GoogleMapsGeocodingCacheEntity transformModelIntoCache(GeocodingResult model) {
+        GoogleMapsGeocodingCacheEntity cache = new GoogleMapsGeocodingCacheEntity();
+
+        cache.setPostalCode(model.getPostalCode());
+        cache.setCountryCode(model.getCountryCode());
+        cache.setCountryName(model.getCountryName());
+        cache.setCityName(model.getCityName());
+
+        return cache;
+    }
+
+    public GeocodingResult transform(GoogleMapsGeocodingCacheEntity cache) {
+        GeocodingResult result = new GeocodingResult();
+
+        result.setPostalCode(cache.getPostalCode());
+        result.setCityName(cache.getCityName());
+        result.setCountryName(cache.getCountryName());
+        result.setCountryCode(cache.getCountryCode());
+
+        return result;
     }
 }

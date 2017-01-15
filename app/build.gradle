@@ -61,6 +61,7 @@ ext {
     lightweightStreamApiVersion = '1.1.4'
     apacheCommonsLangVersions = '3.5'
     ormaVersion = '3.2.2' // Using old version to use rxJava 1.x
+    percelerVersion = '1.1.6'
 
     // Develop
     timberVersion = '4.4.0'
@@ -119,6 +120,9 @@ dependencies {
     // Orma : ORM
     annotationProcessor "com.github.gfx.android.orma:orma-processor:${ormaVersion}"
     compile "com.github.gfx.android.orma:orma:${ormaVersion}"
+    // Perceler :
+    compile "org.parceler:parceler-api:${percelerVersion}"
+    annotationProcessor "org.parceler:parceler:${percelerVersion}"
 
     // LeakCanary : memory leak detection
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"

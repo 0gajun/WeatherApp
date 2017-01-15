@@ -8,6 +8,7 @@ package io.github.a0gajun.weather.data.repository;
 
 import javax.inject.Inject;
 
+import io.github.a0gajun.weather.data.entity.OrmaDatabase;
 import io.github.a0gajun.weather.data.entity.mapper.GoogleMapsGeocodingMapper;
 import io.github.a0gajun.weather.data.exception.ZipCodeNotResolvedException;
 import io.github.a0gajun.weather.data.repository.datasource.GeocodingDataStoreFactory;
@@ -23,23 +24,37 @@ public class GeocodingRepositoryImpl implements GeocodingRepository {
 
     final GeocodingDataStoreFactory geocodingDataStoreFactory;
     final GoogleMapsGeocodingMapper googleMapsGeocodingMapper;
+    final OrmaDatabase ormaDatabase;
 
     @Inject
-    public GeocodingRepositoryImpl(GeocodingDataStoreFactory geocodingDataStoreFactory, GoogleMapsGeocodingMapper googleMapsGeocodingMapper) {
+    public GeocodingRepositoryImpl(OrmaDatabase ormaDatabase, GeocodingDataStoreFactory geocodingDataStoreFactory, GoogleMapsGeocodingMapper googleMapsGeocodingMapper) {
+        this.ormaDatabase = ormaDatabase;
         this.geocodingDataStoreFactory = geocodingDataStoreFactory;
         this.googleMapsGeocodingMapper = googleMapsGeocodingMapper;
     }
 
     @Override
     public Observable<GeocodingResult> geocodingWithZipCode(String zipCode) {
-        return this.geocodingDataStoreFactory.create()
+        Observable<GeocodingResult> cacheObservable = this.geocodingDataStoreFactory.createDBGeocodingDataStore()
                 .geocodingEntityOfZipCode(zipCode)
-                .map(entity -> {
-                    GeocodingResult result = this.googleMapsGeocodingMapper.transform(entity);
-                    if (result == null) {
+                .map(this.googleMapsGeocodingMapper::transform);
+
+        Observable<GeocodingResult> cloudObservable = this.geocodingDataStoreFactory.createCloudDataStore()
+                .geocodingEntityOfZipCode(zipCode)
+                .map(this.googleMapsGeocodingMapper::transform)
+                .doOnNext(geocodingResult -> {
+                    if (geocodingResult == null) {
                         throw new ZipCodeNotResolvedException("Couldn't geocode using zip code(" + zipCode + ")");
                     }
-                    return result;
-                });
+                })
+                .doOnNext(this::insertCache);
+
+        return cacheObservable.switchIfEmpty(cloudObservable);
+    }
+
+    //TODO: Consider responsibility of Repository
+    //TODO: Consider expiration
+    private void insertCache(GeocodingResult geocodingResult) {
+        this.ormaDatabase.insertIntoGoogleMapsGeocodingCacheEntity(this.googleMapsGeocodingMapper.transformModelIntoCache(geocodingResult));
     }
 }

@@ -18,6 +18,7 @@ import io.github.a0gajun.weather.domain.usecase.GeocodingUsingZipCode;
 import io.github.a0gajun.weather.domain.usecase.RegisterWatchingLocation;
 import io.github.a0gajun.weather.domain.util.ZipCodeUtil;
 import io.github.a0gajun.weather.presentation.view.WatchingLocationRegistrationView;
+import timber.log.Timber;
 
 /**
  * Created by Junya Ogasawara on 1/15/17.
@@ -110,6 +111,7 @@ public class WatchingLocationRegistrationPresenter implements Presenter {
         @Override
         public void onError(Throwable e) {
             super.onError(e);
+            Timber.e(e);
             WatchingLocationRegistrationPresenter.this
                     .watchingLocationRegistrationView.showLocationResolveError();
         }

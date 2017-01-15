@@ -8,6 +8,7 @@ package io.github.a0gajun.weather.data.repository.datasource;
 
 import javax.inject.Inject;
 
+import io.github.a0gajun.weather.data.entity.OrmaDatabase;
 import io.github.a0gajun.weather.data.net.GoogleMapsApi;
 
 /**
@@ -17,18 +18,19 @@ import io.github.a0gajun.weather.data.net.GoogleMapsApi;
 public class GeocodingDataStoreFactory {
 
     private final GoogleMapsApi googleMapsApi;
+    private final OrmaDatabase ormaDatabase;
 
     @Inject
-    public GeocodingDataStoreFactory(GoogleMapsApi googleMapsApi) {
+    public GeocodingDataStoreFactory(OrmaDatabase ormaDatabase, GoogleMapsApi googleMapsApi) {
         this.googleMapsApi = googleMapsApi;
+        this.ormaDatabase = ormaDatabase;
     }
 
-    public GeocodingDataStore create() {
-        // TODO: Implement caching
-        return createCloudDataStore();
-    }
-
-    private GeocodingDataStore createCloudDataStore() {
+    public GeocodingDataStore createCloudDataStore() {
         return new CloudGeocodingDataStore(this.googleMapsApi);
+    }
+
+    public DBGeocodingDataStore createDBGeocodingDataStore() {
+        return new DBGeocodingDataStore(this.ormaDatabase);
     }
 }
